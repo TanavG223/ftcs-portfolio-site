@@ -40,6 +40,9 @@ test('portfolio endpoint exposes project phases and all rendered pages', async (
     assert.equal(json.phases.length, 6)
     assert.equal(json.pages.length, 71)
     assert.ok(json.pages.some((page) => page.category === 'prototype'))
+    assert.ok(json.pages.every((page) => page.set && page.setLabel))
+    assert.ok(!json.pages.some((page) => /portfolio page|^page \d+/i.test(page.title)))
+    assert.ok(json.pages.filter((page) => page.set === 'group-contract').length > 1)
   })
 })
 

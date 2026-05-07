@@ -340,11 +340,22 @@ function OverviewPage({ data, navigate, openLightbox }) {
 }
 
 function HeroCadShowcase({ data, openLightbox }) {
-  const cadPage = data.pages.find((page) => page.page === 43)
+  const cadPages = cadSheets
+    .map((sheet) => {
+      const source = data.pages.find((page) => page.page === sheet.page)
+      return source && {
+        ...source,
+        title: sheet.title,
+        setLabel: 'CAD sheets',
+        full: sheet.image,
+        thumb: sheet.image
+      }
+    })
+    .filter(Boolean)
 
   return (
     <div className="hero-cad-showcase">
-      <button type="button" className="cad-sheet-button" onClick={() => openLightbox([cadPage], 0)}>
+      <button type="button" className="cad-sheet-button" onClick={() => openLightbox(cadPages, 0)}>
         <img src={data.assets.heroCad} alt="AutoCAD drawing of the FTCS bottle" />
         <span className="viewer-action">
           <Maximize2 size={16} />
@@ -369,6 +380,15 @@ function routeDescription(path) {
   return map[path]
 }
 
+function artifactSet(data, set, overrides = {}) {
+  return data.pages
+    .filter((page) => page.set === set)
+    .map((page) => ({
+      ...page,
+      ...(overrides[page.page] || {})
+    }))
+}
+
 function SpecTicker({ specs }) {
   const items = [...specs, ...specs]
   return (
@@ -389,16 +409,29 @@ function ResearchPage({ data, navigate, openLightbox }) {
   const sketchSource = data.pages.find((page) => page.page === 26)
   const matrixSource = data.pages.find((page) => page.page === 30)
   const competitorSource = data.pages.find((page) => page.page === 23)
+  const sketchPages = artifactSet(data, 'concept-sketches', {
+    26: {
+      full: assetPath('/portfolio/featured/hand-sketch.jpg'),
+      thumb: assetPath('/portfolio/featured/hand-sketch.jpg')
+    }
+  })
+  const matrixPages = artifactSet(data, 'decision-matrix', {
+    30: {
+      full: assetPath('/portfolio/featured/design-matrix.jpg'),
+      thumb: assetPath('/portfolio/featured/design-matrix.jpg')
+    }
+  })
+  const competitorPages = artifactSet(data, 'competitor-research')
   const artifactPages = [
     sketchSource && {
       ...sketchSource,
-      category: 'Sketch artifact',
+      setLabel: 'Concept sketches',
       full: assetPath('/portfolio/featured/hand-sketch.jpg'),
       thumb: assetPath('/portfolio/featured/hand-sketch.jpg')
     },
     matrixSource && {
       ...matrixSource,
-      category: 'Decision artifact',
+      setLabel: 'Design matrix',
       full: assetPath('/portfolio/featured/design-matrix.jpg'),
       thumb: assetPath('/portfolio/featured/design-matrix.jpg')
     },
@@ -432,14 +465,14 @@ function ResearchPage({ data, navigate, openLightbox }) {
           label="Sketch artifact"
           image={assetPath('/portfolio/featured/hand-sketch.jpg')}
           detail="Early bottle sketch exploring overall form, grip, cap placement, and the direction that moved into technical drawings."
-          onOpen={() => openLightbox(artifactPages, 0)}
+          onOpen={() => openLightbox(sketchPages, Math.max(0, sketchPages.findIndex((page) => page.page === 26)))}
         />
         <ArtifactViewer
           title="Design Matrix"
           label="Decision artifact"
           image={assetPath('/portfolio/featured/design-matrix.jpg')}
           detail="Decision matrix comparing bottle concepts against environmental impact, durability, access, lightweight design, and end-of-life disposal."
-          onOpen={() => openLightbox(artifactPages, 1)}
+          onOpen={() => openLightbox(matrixPages, Math.max(0, matrixPages.findIndex((page) => page.page === 30)))}
         />
       </section>
       <section className="research-layout">
@@ -457,7 +490,7 @@ function ResearchPage({ data, navigate, openLightbox }) {
           label="Research artifact"
           image={assetPath('/portfolio/full/page-23.jpg')}
           detail="Research artifact comparing familiar disposable and reusable bottle products before the FTCS design was selected."
-          onOpen={() => openLightbox(artifactPages, 2)}
+          onOpen={() => openLightbox(competitorPages, 0)}
           compact
         />
       </section>
@@ -515,12 +548,14 @@ function DesignPage({ data, openLightbox }) {
   const [activePhase, setActivePhase] = useState(0)
   const phase = data.phases[activePhase]
   const phasePages = phase.pages.map((pageNo) => data.pages.find((page) => page.page === pageNo)).filter(Boolean)
-  const designMatrixArtifact = {
-    ...data.pages.find((page) => page.page === 30),
-    category: 'Decision artifact',
-    full: assetPath('/portfolio/featured/design-matrix.jpg'),
-    thumb: assetPath('/portfolio/featured/design-matrix.jpg')
-  }
+  const designMatrixPages = artifactSet(data, 'decision-matrix', {
+    30: {
+      full: assetPath('/portfolio/featured/design-matrix.jpg'),
+      thumb: assetPath('/portfolio/featured/design-matrix.jpg')
+    }
+  })
+  const technicalSketchPages = artifactSet(data, 'technical-sketches')
+  const specificationPages = artifactSet(data, 'design-specifications')
 
   return (
     <div className="page-stack">
@@ -565,21 +600,21 @@ function DesignPage({ data, openLightbox }) {
           label="Decision artifact"
           image={assetPath('/portfolio/featured/design-matrix.jpg')}
           detail="Weighted comparison used to choose the strongest reusable-bottle direction."
-          onOpen={() => openLightbox([designMatrixArtifact], 0)}
+          onOpen={() => openLightbox(designMatrixPages, Math.max(0, designMatrixPages.findIndex((page) => page.page === 30)))}
         />
         <ArtifactViewer
           title="Technical Sketches"
           label="Sketch artifact"
           image={assetPath('/portfolio/full/page-32.jpg')}
           detail="Sketches that translate the selected concept into dimensions, views, and manufacturable features."
-          onOpen={() => openLightbox([data.pages.find((page) => page.page === 32)], 0)}
+          onOpen={() => openLightbox(technicalSketchPages, 0)}
         />
         <ArtifactViewer
           title="Specifications"
           label="Spec artifact"
           image={assetPath('/portfolio/full/page-37.jpg')}
           detail="Engineering requirements for material choice, weight, durability, lifecycle impact, leak resistance, and user safety."
-          onOpen={() => openLightbox([data.pages.find((page) => page.page === 37)], 0)}
+          onOpen={() => openLightbox(specificationPages, Math.max(0, specificationPages.findIndex((page) => page.page === 37)))}
         />
       </section>
     </div>
@@ -778,7 +813,7 @@ function PortfolioPage({ data, visiblePages, filter, setFilter, openLightbox }) 
             onClick={() => openLightbox(visiblePages, index)}
           >
             <img src={page.thumb} alt={page.title} loading="lazy" />
-            <span>{page.category}</span>
+            <span>{page.setLabel}</span>
             <strong>{page.title}</strong>
           </button>
         ))}
@@ -819,7 +854,7 @@ function Lightbox({ pages, lightboxIndex, setLightboxIndex }) {
     <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${page.title} preview`}>
       <div className="lightbox-top">
         <div>
-          <span>{page.category}</span>
+          <span>{page.setLabel || page.category}</span>
           <strong>{page.title}</strong>
         </div>
         <button className="icon-button" type="button" aria-label="Close preview" onClick={() => setLightboxIndex(null)}>
