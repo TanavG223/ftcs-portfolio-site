@@ -43,7 +43,11 @@ function normalizePortfolioData(data) {
       image: assetPath(phase.image),
       documents: phase.documents.map((document) => ({
         ...document,
-        image: assetPath(document.image)
+        image: assetPath(document.image),
+        pollingQuestions: document.pollingQuestions?.map((poll) => ({
+          ...poll,
+          image: assetPath(poll.image)
+        }))
       }))
     })),
     competitors: data.competitors.map((competitor) =>
@@ -585,6 +589,14 @@ function DesignPage({ data, openLightbox }) {
     ...document,
     pages: document.pages.map((pageNo) => data.pages.find((page) => page.page === pageNo)).filter(Boolean)
   }))
+  const pollingLightboxPages = (document) =>
+    document.pollingQuestions.map((poll) => ({
+      title: `${poll.code}: ${poll.question}`,
+      category: 'research',
+      setLabel: 'Phase 2 polling chart',
+      full: poll.image,
+      thumb: poll.image
+    }))
 
   return (
     <div className="page-stack">
@@ -635,18 +647,26 @@ function DesignPage({ data, openLightbox }) {
         />
       </section>
       <section className="artifact-grid phase-document-grid">
-        {phaseDocuments.map((document) => (
-          <ArtifactViewer
-            key={document.title}
-            title={document.title}
-            label={document.label}
-            image={document.image}
-            detail={document.detail}
-            onOpen={() => openLightbox(document.pages, 0)}
-            pageCount={document.pages.length}
-            compact={phaseDocuments.length > 3}
-          />
-        ))}
+        {phaseDocuments.map((document) =>
+          document.pollingQuestions ? (
+            <PollingResultsCard
+              key={document.title}
+              document={document}
+              onOpen={(index = 0) => openLightbox(pollingLightboxPages(document), index)}
+            />
+          ) : (
+            <ArtifactViewer
+              key={document.title}
+              title={document.title}
+              label={document.label}
+              image={document.image}
+              detail={document.detail}
+              onOpen={() => openLightbox(document.pages, 0)}
+              pageCount={document.pages.length}
+              compact={phaseDocuments.length > 3}
+            />
+          )
+        )}
       </section>
     </div>
   )
@@ -959,6 +979,41 @@ function ArtifactViewer({ title, label, image, detail, onOpen, pageCount = 1, co
       <div className="artifact-copy">
         <h3>{title}</h3>
         <p>{detail}</p>
+      </div>
+    </article>
+  )
+}
+
+function PollingResultsCard({ document, onOpen }) {
+  return (
+    <article className="artifact-viewer compact polling-results-card">
+      <div className="artifact-topline">
+        <span>{document.label}</span>
+        <button type="button" onClick={() => onOpen(0)} aria-label={`Open ${document.title}`}>
+          <Maximize2 size={16} />
+          Inspect
+        </button>
+      </div>
+      <div className="artifact-image-frame polling-image-frame" aria-label="Phase 2 polling charts">
+        <div className="polling-preview-grid">
+        {document.pollingQuestions.map((poll, index) => (
+            <button
+              type="button"
+              className="polling-thumb-button"
+              onClick={() => onOpen(index)}
+              aria-label={`Open ${poll.code} polling chart`}
+              key={poll.code}
+            >
+              <img src={poll.image} alt={`${poll.code} polling chart: ${poll.question}`} loading="eager" />
+              <span>{poll.code}</span>
+            </button>
+        ))}
+        </div>
+        <PageDots count={document.pollingQuestions.length} />
+      </div>
+      <div className="artifact-copy">
+        <h3>{document.title}</h3>
+        <p>{document.detail}</p>
       </div>
     </article>
   )

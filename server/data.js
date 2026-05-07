@@ -278,9 +278,66 @@ const phases = [
       {
         title: 'Polling',
         label: 'Phase 2 document',
-        detail: 'Survey research and polling setup used to understand bottle habits and user preferences.',
+        detail:
+          'Survey results showing bottle-use frequency, buying channels, preference reasons, and reusable-bottle ownership.',
         pages: [19, 20, 21, 22],
-        image: '/portfolio/full/page-21.jpg'
+        image: '/portfolio/full/page-21.jpg',
+        pollingQuestions: [
+          {
+            code: 'Q1',
+            question: 'How often do you drink water from plastic water bottles?',
+            image: '/portfolio/polling/q1-plastic-bottle-frequency.png',
+            answers: [
+              { label: 'Never', value: 16.7 },
+              { label: '1-2x weekly', value: 22.2 },
+              { label: '3-4x weekly', value: 5.6 },
+              { label: '1 per day', value: 16.7 },
+              { label: '2-3 per day', value: 27.8 },
+              { label: '4+ per day', value: 11.1 }
+            ],
+            takeaway:
+              'Over 55% of respondents use plastic water bottles at least once a day, showing a strong daily habit the FTCS bottle needs to replace.'
+          },
+          {
+            code: 'Q2',
+            question: 'Where do you usually buy plastic water bottles?',
+            image: '/portfolio/polling/q2-buying-location.png',
+            answers: [
+              { label: 'Grocery store', value: 44.4 },
+              { label: 'Online', value: 22.2 },
+              { label: 'Gas station', value: 22.2 },
+              { label: 'Costco / bulk', value: 5.6 },
+              { label: "Don't buy", value: 5.6 }
+            ],
+            takeaway:
+              'Nearly half of respondents buy plastic bottles at grocery stores, making retail convenience a key expectation for the product.'
+          },
+          {
+            code: 'Q3',
+            question: 'Why do you prefer plastic water bottles?',
+            image: '/portfolio/polling/q3-preference-reasons.png',
+            answers: [
+              { label: 'No preference / N/A', value: 22.2 },
+              { label: 'Ease / convenience', value: 22.2 },
+              { label: 'Cheap and portable', value: 11.1 },
+              { label: 'Other reasons', value: 44.5 }
+            ],
+            takeaway:
+              'Convenience and cost are major reasons people choose plastic bottles, so FTCS needs to feel easy to carry and practical enough for daily use.'
+          },
+          {
+            code: 'Q4',
+            question: 'Do you currently own a reusable water bottle? If so, how often do you use it?',
+            image: '/portfolio/polling/q4-reusable-ownership.png',
+            answers: [
+              { label: 'Yes, daily', value: 38.9 },
+              { label: 'Yes, occasionally', value: 22.2 },
+              { label: 'No / N/A', value: 38.9 }
+            ],
+            takeaway:
+              'Over 60% of respondents already own or use a reusable bottle, showing an existing market and room to convert the remaining 38.9%.'
+          }
+        ]
       },
       {
         title: 'Competitor Products',
