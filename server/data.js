@@ -359,7 +359,7 @@ const portfolioData = {
     }
   ],
   assets: {
-    heroCad: '/portfolio/featured/autocad-bottle-full.jpg',
+    heroCad: '/portfolio/featured/autocad-bottle-sketch.jpg',
     noCap: '/portfolio/featured/autocad-bottle-nocap.jpg',
     cap: '/portfolio/featured/autocad-cap.jpg',
     sketch: '/portfolio/featured/hand-sketch.jpg',
