@@ -41,6 +41,11 @@ function normalizePortfolioData(data) {
       ...phase,
       image: assetPath(phase.image)
     })),
+    competitors: data.competitors.map((competitor) =>
+      typeof competitor === 'string'
+        ? { name: competitor }
+        : { ...competitor, logo: assetPath(competitor.logo) }
+    ),
     pages: data.pages.map((page) => ({
       ...page,
       full: assetPath(page.full),
@@ -522,12 +527,30 @@ function HeroArtifactPair({ pages, openLightbox }) {
 function CompetitorBoard({ competitors }) {
   return (
     <div className="competitor-board kinetic-board">
-      {competitors.map((competitor, index) => (
-        <button className="competitor-tile" style={{ '--delay': `${index * 70}ms` }} key={competitor} type="button">
-          <span>{competitor.slice(0, 2).toUpperCase()}</span>
-          {competitor}
-        </button>
-      ))}
+      {competitors.map((competitor, index) => {
+        const Tile = competitor.url ? 'a' : 'article'
+
+        return (
+          <Tile
+            aria-label={competitor.url ? `Open ${competitor.name} website` : undefined}
+            className="competitor-tile"
+            href={competitor.url}
+            key={competitor.name}
+            rel={competitor.url ? 'noreferrer' : undefined}
+            style={{ '--delay': `${index * 70}ms` }}
+            target={competitor.url ? '_blank' : undefined}
+          >
+            {competitor.logo ? (
+              <span className="competitor-logo-shell">
+                <img src={competitor.logo} alt={`${competitor.name} logo`} loading="lazy" />
+              </span>
+            ) : (
+              <span className="competitor-initials">{competitor.name.slice(0, 2).toUpperCase()}</span>
+            )}
+            <strong>{competitor.name}</strong>
+          </Tile>
+        )
+      })}
     </div>
   )
 }

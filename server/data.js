@@ -312,14 +312,14 @@ const portfolioData = {
     }
   ],
   competitors: [
-    'Nalgene',
-    'Contigo',
-    'CamelBak',
-    'Owala',
-    'Aquafina',
-    'Smartwater',
-    'VitaminWater',
-    'Dasani'
+    { name: 'Nalgene', logo: '/competitors/nalgene.png', url: 'https://nalgene.com/' },
+    { name: 'Contigo', logo: '/competitors/contigo.png', url: 'https://www.gocontigo.com/' },
+    { name: 'CamelBak', logo: '/competitors/camelbak.svg', url: 'https://www.camelbak.com/' },
+    { name: 'Owala', logo: '/competitors/owala.svg', url: 'https://owalalife.com/' },
+    { name: 'Aquafina', logo: '/competitors/aquafina.svg', url: 'https://www.aquafina.com/' },
+    { name: 'Smartwater', logo: '/competitors/smartwater.png', url: 'https://www.drinksmartwater.com/' },
+    { name: 'VitaminWater', logo: '/competitors/vitaminwater.png', url: 'https://www.vitaminwater.com/' },
+    { name: 'Dasani', logo: '/competitors/dasani.png', url: 'https://www.dasani.com/' }
   ],
   feedback: {
     strengths: [
