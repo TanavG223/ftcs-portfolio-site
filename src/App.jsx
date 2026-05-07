@@ -564,6 +564,10 @@ function DesignPage({ data, openLightbox }) {
   const [activePhase, setActivePhase] = useState(0)
   const phase = data.phases[activePhase]
   const phasePages = phase.pages.map((pageNo) => data.pages.find((page) => page.page === pageNo)).filter(Boolean)
+  const phaseEvidence = phase.artifacts.map((artifact, index) => ({
+    title: artifact,
+    lightboxIndex: Math.min(index, Math.max(phasePages.length - 1, 0))
+  }))
   const designMatrixPages = artifactSet(data, 'decision-matrix', {
     30: {
       full: assetPath('/portfolio/featured/design-matrix.jpg'),
@@ -592,11 +596,21 @@ function DesignPage({ data, openLightbox }) {
           <p className="section-label">{phase.label}</p>
           <h2>{phase.title}</h2>
           <p>{phase.summary}</p>
+          <div className="phase-evidence-head">
+            <p className="section-label">Included evidence</p>
+            <span>{phase.artifacts.length} artifacts</span>
+          </div>
           <ul className="artifact-list">
-            {phase.artifacts.map((artifact) => (
-              <li key={artifact}>
-                <CheckCircle2 size={18} />
-                {artifact}
+            {phaseEvidence.map((artifact) => (
+              <li key={artifact.title}>
+                <button
+                  type="button"
+                  onClick={() => openLightbox(phasePages, artifact.lightboxIndex)}
+                  disabled={!phasePages.length}
+                >
+                  <CheckCircle2 size={18} />
+                  <span>{artifact.title}</span>
+                </button>
               </li>
             ))}
           </ul>

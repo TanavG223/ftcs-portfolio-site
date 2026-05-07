@@ -207,8 +207,18 @@ const phases = [
     title: 'Define the problem and team rules',
     summary:
       'The team framed the disposable-plastic bottle problem, compared reusable bottle competitors, created a group contract, and assigned clear roles before design work began.',
-    artifacts: ['Problem statement', 'Competitor analysis', 'Group contract', 'Gantt chart'],
-    pages: [8, 10, 12, 16],
+    artifacts: [
+      'Phase 1 workflow',
+      'Problem statement',
+      'Competitor analysis',
+      'Group contract',
+      'Team responsibilities',
+      'Conflict resolution agreement',
+      'Planning schedule',
+      'Project Gantt chart',
+      'Phase 1 review'
+    ],
+    pages: [4, 8, 10, 12, 13, 14, 15, 16, 17],
     image: '/portfolio/full/page-08.jpg'
   },
   {
@@ -217,8 +227,16 @@ const phases = [
     title: 'Research market behavior and early sketches',
     summary:
       'Research focused on user polling, disposable and reusable bottle brands, and early sketch directions for a familiar bottle shape with a lower-waste lifecycle.',
-    artifacts: ['Polling form', 'Competitor products', 'Concept sketches'],
-    pages: [21, 23, 26],
+    artifacts: [
+      'Research question',
+      'User survey form',
+      'Survey response plan',
+      'Competitor products',
+      'Competitor comparison',
+      'Bottle concept sketch',
+      'Phase 2 review'
+    ],
+    pages: [20, 21, 22, 23, 24, 26, 27],
     image: '/portfolio/full/page-26.jpg'
   },
   {
@@ -227,8 +245,20 @@ const phases = [
     title: 'Select a design and write specifications',
     summary:
       'The design matrix and technical sketches narrowed the concept into measurable requirements for material, durability, weight, shape, impact, leak resistance, safety, cost, and lifecycle.',
-    artifacts: ['Decision matrix', 'Technical sketches', 'Design specifications'],
-    pages: [30, 32, 37],
+    artifacts: [
+      'Design matrix criteria',
+      'Design matrix',
+      'Selected design rationale',
+      'Technical design sketches',
+      'Sketch annotations',
+      'Design feedback notes',
+      'Design revision notes',
+      'Design specifications',
+      'Testing requirements',
+      'Manufacturing and cost notes',
+      'Phase 3 review'
+    ],
+    pages: [29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40],
     image: '/portfolio/full/page-37.jpg'
   },
   {
@@ -237,8 +267,23 @@ const phases = [
     title: 'Model the bottle and cap in AutoCAD',
     summary:
       'AutoCAD drawings defined the reusable bottle body and replacement cap, including dimensional callouts, material notes, and no-cap views for the opening and closure.',
-    artifacts: ['Bottle CAD', 'No-cap body', 'Replacement cap'],
-    pages: [43, 48, 54],
+    artifacts: [
+      'CAD modeling cover',
+      'AutoCAD bottle drawing',
+      'Bottle front view',
+      'Bottle dimensions',
+      'Material callouts',
+      'Bottle drawing review',
+      'Bottle body without cap',
+      'Cap interface details',
+      'Neck and thread geometry',
+      'Prototype revision notes',
+      'Model review notes',
+      'Final CAD check',
+      'Replacement cap design',
+      'Phase 4 review'
+    ],
+    pages: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
     image: '/portfolio/featured/autocad-bottle-full.jpg'
   },
   {
@@ -247,8 +292,19 @@ const phases = [
     title: 'Use peer review to sharpen the pitch',
     summary:
       'Peer feedback confirmed the design was realistic and organized while asking for stronger USP language, deeper competitor/material research, and clearer annotations.',
-    artifacts: ['Peer review', 'Strengths', 'Growth areas'],
-    pages: [58, 59, 61],
+    artifacts: [
+      'Peer review cover',
+      'Peer review form',
+      'Peer review strengths',
+      'Peer review improvements',
+      'Review given to another team',
+      'Review response plan',
+      'Project reflection',
+      'Phase 1 reflection',
+      'Phase 2 reflection',
+      'Phase 3 and CAD reflection'
+    ],
+    pages: [57, 58, 59, 60, 61, 62, 64, 65, 66, 67],
     image: '/portfolio/full/page-58.jpg'
   },
   {
@@ -257,8 +313,13 @@ const phases = [
     title: 'Prepare for final presentation day',
     summary:
       'The final checklist covered the poster, QR code, portfolio, visuals, team practice, grammar review, and a five-minute presentation run-through.',
-    artifacts: ['Expo checklist', 'Poster sections', 'Team preparation'],
-    pages: [71],
+    artifacts: [
+      'Final presentation divider',
+      'Presentation practice',
+      'Expo readiness',
+      'Final presentation checklist'
+    ],
+    pages: [68, 69, 70, 71],
     image: '/portfolio/full/page-71.jpg'
   }
 ]
