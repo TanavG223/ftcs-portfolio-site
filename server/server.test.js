@@ -43,6 +43,17 @@ test('portfolio endpoint exposes project phases and all rendered pages', async (
     assert.ok(json.pages.every((page) => page.set && page.setLabel))
     assert.ok(!json.pages.some((page) => /portfolio page|^page \d+/i.test(page.title)))
     assert.ok(json.pages.filter((page) => page.set === 'group-contract').length > 1)
+    assert.deepEqual(
+      json.phases.map((phase) => phase.documents.map((document) => document.title)),
+      [
+        ['Folder', 'Problem Statement', 'Competitor Analysis', 'Group Contract', 'Gantt Chart'],
+        ['Polling', 'Competitor Products', 'Sketches'],
+        ['Decision Matrix', 'Technical Sketches', 'FTCS Presentation', 'Design Specifications'],
+        ['AutoCAD Water Bottle', 'Water Bottle (No Cap)', 'AutoCAD Cap'],
+        ['Our Peer Review', 'Their Peer Review', 'Final Reflections'],
+        ['Pre-presentation Checklist', 'Post Presentation Checklist']
+      ]
+    )
   })
 })
 

@@ -32,8 +32,8 @@ const pageTitleMap = {
   31: 'Selected design rationale',
   32: 'Technical design sketches',
   33: 'Sketch annotations',
-  34: 'Design feedback notes',
-  35: 'Design revision notes',
+  34: 'FTCS presentation feedback',
+  35: 'FTCS presentation feedback continued',
   36: 'Specification cover',
   37: 'Design specifications',
   38: 'Testing requirements',
@@ -66,10 +66,10 @@ const pageTitleMap = {
   65: 'Phase 1 reflection',
   66: 'Phase 2 reflection',
   67: 'Phase 3 and CAD reflection',
-  68: 'Final presentation divider',
-  69: 'Presentation practice',
-  70: 'Expo readiness',
-  71: 'Final presentation checklist'
+  68: 'Phase 6 divider',
+  69: 'Phase 6 workflow',
+  70: 'Pre-presentation checklist',
+  71: 'Post presentation checklist'
 }
 
 const pageSetMap = {
@@ -219,6 +219,43 @@ const phases = [
       'Phase 1 review'
     ],
     pages: [4, 8, 10, 12, 13, 14, 15, 16, 17],
+    documents: [
+      {
+        title: 'Folder',
+        label: 'Phase 1 document',
+        detail: 'Project folder cover and Unit 4 folder evidence for the opening phase.',
+        pages: [5, 6],
+        image: '/portfolio/full/page-06.jpg'
+      },
+      {
+        title: 'Problem Statement',
+        label: 'Phase 1 document',
+        detail: 'Problem definition for plastic waste, user needs, and the bottle design challenge.',
+        pages: [7, 8],
+        image: '/portfolio/full/page-08.jpg'
+      },
+      {
+        title: 'Competitor Analysis',
+        label: 'Phase 1 document',
+        detail: 'Early competitor research comparing existing reusable bottle strengths and weaknesses.',
+        pages: [9, 10],
+        image: '/portfolio/full/page-10.jpg'
+      },
+      {
+        title: 'Group Contract',
+        label: 'Phase 1 document',
+        detail: 'Team roles, responsibilities, conflict plan, and working agreements for the project.',
+        pages: [11, 12, 13, 14],
+        image: '/portfolio/full/page-12.jpg'
+      },
+      {
+        title: 'Gantt Chart',
+        label: 'Phase 1 document',
+        detail: 'Planning schedule used to organize deadlines, phase work, and team responsibilities.',
+        pages: [15, 16],
+        image: '/portfolio/full/page-16.jpg'
+      }
+    ],
     image: '/portfolio/full/page-08.jpg'
   },
   {
@@ -237,6 +274,29 @@ const phases = [
       'Phase 2 review'
     ],
     pages: [20, 21, 22, 23, 24, 26, 27],
+    documents: [
+      {
+        title: 'Polling',
+        label: 'Phase 2 document',
+        detail: 'Survey research and polling setup used to understand bottle habits and user preferences.',
+        pages: [19, 20, 21, 22],
+        image: '/portfolio/full/page-21.jpg'
+      },
+      {
+        title: 'Competitor Products',
+        label: 'Phase 2 document',
+        detail: 'Product research comparing existing water bottle options and market expectations.',
+        pages: [23, 24],
+        image: '/portfolio/full/page-23.jpg'
+      },
+      {
+        title: 'Sketches',
+        label: 'Phase 2 document',
+        detail: 'Concept sketch evidence showing the early bottle direction before specifications.',
+        pages: [25, 26, 27],
+        image: '/portfolio/full/page-26.jpg'
+      }
+    ],
     image: '/portfolio/full/page-26.jpg'
   },
   {
@@ -259,6 +319,36 @@ const phases = [
       'Phase 3 review'
     ],
     pages: [29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40],
+    documents: [
+      {
+        title: 'Decision Matrix',
+        label: 'Phase 3 document',
+        detail: 'Weighted criteria and design rationale used to select the strongest bottle direction.',
+        pages: [29, 30, 31],
+        image: '/portfolio/featured/design-matrix.jpg'
+      },
+      {
+        title: 'Technical Sketches',
+        label: 'Phase 3 document',
+        detail: 'Dimensioned sketches and annotations translating the selected concept into form.',
+        pages: [32, 33],
+        image: '/portfolio/full/page-32.jpg'
+      },
+      {
+        title: 'FTCS Presentation',
+        label: 'Phase 3 document',
+        detail: 'Presentation feedback used to improve research clarity, competitiveness, and pitch structure.',
+        pages: [34, 35, 40],
+        image: '/portfolio/full/page-34.jpg'
+      },
+      {
+        title: 'Design Specifications',
+        label: 'Phase 3 document',
+        detail: 'Material, durability, weight, shape, lifecycle, leak resistance, and safety requirements.',
+        pages: [36, 37, 38, 39],
+        image: '/portfolio/full/page-37.jpg'
+      }
+    ],
     image: '/portfolio/full/page-37.jpg'
   },
   {
@@ -284,6 +374,29 @@ const phases = [
       'Phase 4 review'
     ],
     pages: [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
+    documents: [
+      {
+        title: 'AutoCAD Water Bottle',
+        label: 'Phase 4 document',
+        detail: 'Full bottle CAD drawing with dimensions, material callouts, and review notes.',
+        pages: [42, 43, 44, 45, 46, 47],
+        image: '/portfolio/featured/autocad-bottle-full.jpg'
+      },
+      {
+        title: 'Water Bottle (No Cap)',
+        label: 'Phase 4 document',
+        detail: 'No-cap bottle body views for the opening, neck, and closure interface.',
+        pages: [48, 49, 50, 51, 52, 53],
+        image: '/portfolio/featured/autocad-bottle-nocap.jpg'
+      },
+      {
+        title: 'AutoCAD Cap',
+        label: 'Phase 4 document',
+        detail: 'Replacement cap concept with cap geometry and final CAD check evidence.',
+        pages: [54, 55],
+        image: '/portfolio/featured/autocad-cap.jpg'
+      }
+    ],
     image: '/portfolio/featured/autocad-bottle-full.jpg'
   },
   {
@@ -305,6 +418,29 @@ const phases = [
       'Phase 3 and CAD reflection'
     ],
     pages: [57, 58, 59, 60, 61, 62, 64, 65, 66, 67],
+    documents: [
+      {
+        title: 'Our Peer Review',
+        label: 'Phase 5 document',
+        detail: 'Peer feedback received by FTCS, including strengths, improvement areas, and response plan.',
+        pages: [57, 58, 59, 60],
+        image: '/portfolio/full/page-58.jpg'
+      },
+      {
+        title: 'Their Peer Review',
+        label: 'Phase 5 document',
+        detail: 'Review given to another team and the comparison notes used to sharpen FTCS work.',
+        pages: [61, 62],
+        image: '/portfolio/full/page-61.jpg'
+      },
+      {
+        title: 'Final Reflections',
+        label: 'Phase 5 document',
+        detail: 'Project reflections covering phase progress, team growth, and final engineering takeaways.',
+        pages: [63, 64, 65, 66, 67],
+        image: '/portfolio/full/page-64.jpg'
+      }
+    ],
     image: '/portfolio/full/page-58.jpg'
   },
   {
@@ -320,6 +456,22 @@ const phases = [
       'Final presentation checklist'
     ],
     pages: [68, 69, 70, 71],
+    documents: [
+      {
+        title: 'Pre-presentation Checklist',
+        label: 'Phase 6 document',
+        detail: 'Preparation checklist for poster readiness, QR testing, visuals, practice, and final edits.',
+        pages: [68, 69, 70],
+        image: '/portfolio/full/page-70.jpg'
+      },
+      {
+        title: 'Post Presentation Checklist',
+        label: 'Phase 6 document',
+        detail: 'Final presentation-day checklist confirming the portfolio, poster, and team items.',
+        pages: [71],
+        image: '/portfolio/full/page-71.jpg'
+      }
+    ],
     image: '/portfolio/full/page-71.jpg'
   }
 ]

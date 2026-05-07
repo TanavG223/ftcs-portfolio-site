@@ -39,7 +39,11 @@ function normalizePortfolioData(data) {
     assets: Object.fromEntries(Object.entries(data.assets).map(([key, value]) => [key, assetPath(value)])),
     phases: data.phases.map((phase) => ({
       ...phase,
-      image: assetPath(phase.image)
+      image: assetPath(phase.image),
+      documents: phase.documents.map((document) => ({
+        ...document,
+        image: assetPath(document.image)
+      }))
     })),
     competitors: data.competitors.map((competitor) =>
       typeof competitor === 'string'
@@ -568,14 +572,10 @@ function DesignPage({ data, openLightbox }) {
     title: artifact,
     lightboxIndex: Math.min(index, Math.max(phasePages.length - 1, 0))
   }))
-  const designMatrixPages = artifactSet(data, 'decision-matrix', {
-    30: {
-      full: assetPath('/portfolio/featured/design-matrix.jpg'),
-      thumb: assetPath('/portfolio/featured/design-matrix.jpg')
-    }
-  })
-  const technicalSketchPages = artifactSet(data, 'technical-sketches')
-  const specificationPages = artifactSet(data, 'design-specifications')
+  const phaseDocuments = phase.documents.map((document) => ({
+    ...document,
+    pages: document.pages.map((pageNo) => data.pages.find((page) => page.page === pageNo)).filter(Boolean)
+  }))
 
   return (
     <div className="page-stack">
@@ -624,28 +624,18 @@ function DesignPage({ data, openLightbox }) {
           compact
         />
       </section>
-      <section className="artifact-grid three-up">
-        <ArtifactViewer
-          title="Design Matrix"
-          label="Decision artifact"
-          image={assetPath('/portfolio/featured/design-matrix.jpg')}
-          detail="Weighted comparison used to choose the strongest reusable-bottle direction."
-          onOpen={() => openLightbox(designMatrixPages, Math.max(0, designMatrixPages.findIndex((page) => page.page === 30)))}
-        />
-        <ArtifactViewer
-          title="Technical Sketches"
-          label="Sketch artifact"
-          image={assetPath('/portfolio/full/page-32.jpg')}
-          detail="Sketches that translate the selected concept into dimensions, views, and manufacturable features."
-          onOpen={() => openLightbox(technicalSketchPages, 0)}
-        />
-        <ArtifactViewer
-          title="Specifications"
-          label="Spec artifact"
-          image={assetPath('/portfolio/full/page-37.jpg')}
-          detail="Engineering requirements for material choice, weight, durability, lifecycle impact, leak resistance, and user safety."
-          onOpen={() => openLightbox(specificationPages, Math.max(0, specificationPages.findIndex((page) => page.page === 37)))}
-        />
+      <section className="artifact-grid phase-document-grid">
+        {phaseDocuments.map((document) => (
+          <ArtifactViewer
+            key={document.title}
+            title={document.title}
+            label={document.label}
+            image={document.image}
+            detail={document.detail}
+            onOpen={() => openLightbox(document.pages, 0)}
+            compact={phaseDocuments.length > 3}
+          />
+        ))}
       </section>
     </div>
   )
