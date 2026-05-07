@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FTCS">
+  <rect width="64" height="64" rx="10" fill="#14201f"/>
+  <rect x="6" y="6" width="52" height="52" rx="7" fill="none" stroke="#7fbf3f" stroke-width="4"/>
+  <path d="M16 38c11 7 25 6 34-3" fill="none" stroke="#22b4ac" stroke-width="5" stroke-linecap="round"/>
+  <path d="M18 27c10-8 22-8 33-1" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+  <text x="32" y="37" text-anchor="middle" font-size="16" font-weight="800" font-family="Arial, sans-serif" fill="#ffffff">FTCS</text>
+</svg>

@@ -1,0 +1,837 @@
+import {
+  ArrowRight,
+  BadgeCheck,
+  Bot,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  CircleDot,
+  Gauge,
+  GalleryHorizontalEnd,
+  Layers3,
+  Maximize2,
+  Menu,
+  MessageSquareText,
+  PenTool,
+  Route,
+  Search,
+  Target,
+  X,
+  ZoomIn
+} from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import portfolioData from '../server/data.js'
+
+const siteBase = import.meta.env.BASE_URL || '/'
+
+function assetPath(value) {
+  if (!value || /^(https?:|data:|blob:)/.test(value)) return value
+  const clean = value.startsWith('/') ? value.slice(1) : value
+  return `${siteBase}${clean}`
+}
+
+function normalizePortfolioData(data) {
+  return {
+    ...data,
+    project: {
+      ...data.project,
+      logo: assetPath(data.project.logo),
+      portfolioPdf: assetPath(data.project.portfolioPdf)
+    },
+    assets: Object.fromEntries(Object.entries(data.assets).map(([key, value]) => [key, assetPath(value)])),
+    phases: data.phases.map((phase) => ({
+      ...phase,
+      image: assetPath(phase.image)
+    })),
+    pages: data.pages.map((page) => ({
+      ...page,
+      full: assetPath(page.full),
+      thumb: assetPath(page.thumb)
+    }))
+  }
+}
+
+const routes = [
+  { path: '/', label: 'Overview', icon: Target },
+  { path: '/research', label: 'Research', icon: Search },
+  { path: '/design', label: 'Design', icon: Route },
+  { path: '/prototype', label: 'Prototype', icon: Bot },
+  { path: '/reviews', label: 'Reviews', icon: MessageSquareText },
+  { path: '/portfolio', label: 'Portfolio', icon: GalleryHorizontalEnd }
+]
+
+const galleryFilters = [
+  { id: 'all', label: 'All' },
+  { id: 'research', label: 'Research' },
+  { id: 'planning', label: 'Planning' },
+  { id: 'sketches', label: 'Sketches' },
+  { id: 'prototype', label: 'Prototype' },
+  { id: 'reviews', label: 'Reviews' },
+  { id: 'reflection', label: 'Reflection' }
+]
+
+const cadSheets = [
+  {
+    title: 'Full Bottle CAD',
+    detail: 'Dimensioned bottle body with material callouts.',
+    image: assetPath('/portfolio/featured/autocad-bottle-full.jpg'),
+    page: 43
+  },
+  {
+    title: 'No-Cap Bottle View',
+    detail: 'Bottle body view for cap replacement planning.',
+    image: assetPath('/portfolio/featured/autocad-bottle-nocap.jpg'),
+    page: 48
+  },
+  {
+    title: 'Replacement Cap',
+    detail: 'Ridged cap concept with side and top views.',
+    image: assetPath('/portfolio/featured/autocad-cap.jpg'),
+    page: 54
+  }
+]
+
+function routeFromLocation() {
+  const hashPath = window.location.hash.replace(/^#/, '')
+  const path = hashPath || '/'
+  return routes.some((route) => route.path === path) ? path : '/'
+}
+
+function useRoute() {
+  const [route, setRoute] = useState(routeFromLocation)
+
+  useEffect(() => {
+    function onPopState() {
+      setRoute(routeFromLocation())
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    window.addEventListener('hashchange', onPopState)
+    return () => window.removeEventListener('hashchange', onPopState)
+  }, [])
+
+  function navigate(path) {
+    if (path === route) return
+    window.location.hash = path
+    setRoute(path)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  return [route, navigate]
+}
+
+export default function App() {
+  const data = useMemo(() => normalizePortfolioData(portfolioData), [])
+  const [route, navigate] = useRoute()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [filter, setFilter] = useState('all')
+  const [lightboxPages, setLightboxPages] = useState([])
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+
+  const visiblePages = useMemo(() => {
+    return filter === 'all' ? data.pages : data.pages.filter((page) => page.category === filter)
+  }, [data, filter])
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+
+    function onKeyDown(event) {
+      if (event.key === 'Escape') setLightboxIndex(null)
+      if (event.key === 'ArrowRight') {
+        setLightboxIndex((current) => (current === null ? current : (current + 1) % lightboxPages.length))
+      }
+      if (event.key === 'ArrowLeft') {
+        setLightboxIndex((current) =>
+          current === null ? current : (current - 1 + lightboxPages.length) % lightboxPages.length
+        )
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [lightboxIndex, lightboxPages.length])
+
+  function openLightbox(pages, index) {
+    setLightboxPages(pages)
+    setLightboxIndex(index)
+  }
+
+  return (
+    <div className="app-shell">
+      <MotionBackdrop />
+      <Sidebar
+        route={route}
+        navigate={navigate}
+        logo={data.project.logo}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
+      <div className="main-shell">
+        <TopStatus
+          route={route}
+          mobileOpen={mobileOpen}
+          setMobileOpen={setMobileOpen}
+        />
+        <main className="page-frame">
+          <PageTransition route={route}>
+            {route === '/' && <OverviewPage data={data} navigate={navigate} openLightbox={openLightbox} />}
+            {route === '/research' && <ResearchPage data={data} navigate={navigate} openLightbox={openLightbox} />}
+            {route === '/design' && <DesignPage data={data} openLightbox={openLightbox} />}
+            {route === '/prototype' && <PrototypePage data={data} openLightbox={openLightbox} />}
+            {route === '/reviews' && <ReviewsPage data={data} navigate={navigate} />}
+            {route === '/portfolio' && (
+              <PortfolioPage
+                data={data}
+                filter={filter}
+                setFilter={setFilter}
+                visiblePages={visiblePages}
+                openLightbox={openLightbox}
+              />
+            )}
+          </PageTransition>
+        </main>
+      </div>
+      <Lightbox
+        pages={lightboxPages}
+        lightboxIndex={lightboxIndex}
+        setLightboxIndex={setLightboxIndex}
+      />
+    </div>
+  )
+}
+
+function MotionBackdrop() {
+  return (
+    <div className="motion-backdrop" aria-hidden="true">
+      <div className="grid-sweep" />
+      <div className="scan-line" />
+      <div className="cad-path path-one" />
+      <div className="cad-path path-two" />
+      <div className="cad-path path-three" />
+    </div>
+  )
+}
+
+function Sidebar({ route, navigate, logo, mobileOpen, setMobileOpen }) {
+  return (
+    <aside className={mobileOpen ? 'sidebar is-open' : 'sidebar'}>
+      <div className="sidebar-brand">
+        <img className="team-logo" src={logo} alt="FTCS team logo" />
+        <div>
+          <strong>Engineering Portfolio</strong>
+          <span>Reusable bottle system</span>
+        </div>
+      </div>
+      <nav className="side-nav" aria-label="Main sections">
+        {routes.map((item) => {
+          const Icon = item.icon
+          return (
+            <button
+              key={item.path}
+              type="button"
+              className={route === item.path ? 'is-active' : ''}
+              onClick={() => {
+                navigate(item.path)
+                setMobileOpen(false)
+              }}
+            >
+              <Icon size={18} />
+              <span>{item.label}</span>
+            </button>
+          )
+        })}
+      </nav>
+    </aside>
+  )
+}
+
+function TopStatus({ route, mobileOpen, setMobileOpen }) {
+  const current = routes.find((item) => item.path === route) || routes[0]
+  return (
+    <header className="top-status">
+      <button className="icon-button menu-toggle" type="button" aria-label="Toggle menu" onClick={() => setMobileOpen(!mobileOpen)}>
+        {mobileOpen ? <X size={21} /> : <Menu size={21} />}
+      </button>
+      <div className="route-readout">
+        <span>{current.label}</span>
+        <strong>FTCS / {current.label.toLowerCase()}</strong>
+      </div>
+      <div className="status-pills" aria-label="Project status">
+        <span>
+          <CircleDot size={16} />
+          Live build
+        </span>
+        <span>
+          <Gauge size={16} />
+          CAD + research
+        </span>
+      </div>
+    </header>
+  )
+}
+
+function PageTransition({ route, children }) {
+  return (
+    <div key={route} className="page-transition">
+      {children}
+    </div>
+  )
+}
+
+function PageHero({ label, title, text, actions, visual }) {
+  return (
+    <section className="page-hero">
+      <div className="page-hero-copy">
+        <p className="section-label">{label}</p>
+        <h1>{title}</h1>
+        <p>{text}</p>
+        {actions && <div className="hero-actions">{actions}</div>}
+      </div>
+      {visual && <div className="page-hero-visual">{visual}</div>}
+    </section>
+  )
+}
+
+function OverviewPage({ data, navigate, openLightbox }) {
+  return (
+    <div className="page-stack">
+      <PageHero
+        label="Project Overview"
+        title={`${data.project.name}: ${data.project.title}`}
+        text={data.project.subtitle}
+        actions={
+          <>
+            <button type="button" className="primary-button" onClick={() => navigate('/prototype')}>
+              View Prototype
+              <ArrowRight size={18} />
+            </button>
+            <button type="button" className="secondary-button" onClick={() => navigate('/portfolio')}>
+              Open Portfolio
+              <GalleryHorizontalEnd size={18} />
+            </button>
+          </>
+        }
+        visual={<HeroCadShowcase data={data} openLightbox={openLightbox} />}
+      />
+      <SpecTicker specs={data.specifications} />
+      <section className="metric-grid">
+        {data.stats.map((stat) => (
+          <article className="metric-card reveal-card" key={stat.value}>
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
+          </article>
+        ))}
+      </section>
+      <section className="route-grid" aria-label="Project sections">
+        {routes.slice(1).map((item) => {
+          const Icon = item.icon
+          return (
+            <button key={item.path} type="button" className="route-card reveal-card" onClick={() => navigate(item.path)}>
+              <Icon size={24} />
+              <strong>{item.label}</strong>
+              <span>{routeDescription(item.path)}</span>
+              <ArrowRight size={18} />
+            </button>
+          )
+        })}
+      </section>
+    </div>
+  )
+}
+
+function HeroCadShowcase({ data, openLightbox }) {
+  const cadPage = data.pages.find((page) => page.page === 43)
+
+  return (
+    <div className="hero-cad-showcase">
+      <button type="button" className="cad-sheet-button" onClick={() => openLightbox([cadPage], 0)}>
+        <img src={data.assets.heroCad} alt="AutoCAD drawing of the FTCS bottle" />
+        <span className="viewer-action">
+          <Maximize2 size={16} />
+          Inspect CAD
+        </span>
+      </button>
+      <div className="floating-measure measure-a">PLA / 1mm</div>
+      <div className="floating-measure measure-b">Phase 4 prototype</div>
+      <div className="floating-measure measure-c">R10 bottle contour</div>
+    </div>
+  )
+}
+
+function routeDescription(path) {
+  const map = {
+    '/research': 'Competitors, polling, sketches, and matrix artifacts.',
+    '/design': 'Six project phases with active phase previews.',
+    '/prototype': 'CAD sheets, cap redesign, and specs.',
+    '/reviews': 'Peer feedback, strengths, growth, and team roles.',
+    '/portfolio': 'Rendered portfolio archive with inspectable images.'
+  }
+  return map[path]
+}
+
+function SpecTicker({ specs }) {
+  const items = [...specs, ...specs]
+  return (
+    <div className="spec-ticker" aria-label="Design specification ticker">
+      <div className="ticker-track">
+        {items.map((spec, index) => (
+          <span key={`${spec.name}-${index}`}>
+            <BadgeCheck size={16} />
+            {spec.name}: {spec.detail}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ResearchPage({ data, navigate, openLightbox }) {
+  const sketchSource = data.pages.find((page) => page.page === 26)
+  const matrixSource = data.pages.find((page) => page.page === 30)
+  const competitorSource = data.pages.find((page) => page.page === 23)
+  const artifactPages = [
+    sketchSource && {
+      ...sketchSource,
+      category: 'Sketch artifact',
+      full: assetPath('/portfolio/featured/hand-sketch.jpg'),
+      thumb: assetPath('/portfolio/featured/hand-sketch.jpg')
+    },
+    matrixSource && {
+      ...matrixSource,
+      category: 'Decision artifact',
+      full: assetPath('/portfolio/featured/design-matrix.jpg'),
+      thumb: assetPath('/portfolio/featured/design-matrix.jpg')
+    },
+    competitorSource
+  ].filter(Boolean)
+
+  return (
+    <div className="page-stack">
+      <PageHero
+        label="Research"
+        title="Sketches and matrix stay fully visible."
+        text="The research section puts the sketch and design matrix directly in the first viewport. Both previews use contain-fit framing, so the full artifact is visible instead of being cropped."
+        actions={
+          <>
+            <button type="button" className="primary-button" onClick={() => openLightbox(artifactPages, 0)}>
+              Inspect Sketch
+              <ZoomIn size={18} />
+            </button>
+            <button type="button" className="secondary-button" onClick={() => navigate('/design')}>
+              Continue to Design
+              <ArrowRight size={18} />
+            </button>
+          </>
+        }
+        visual={<HeroArtifactPair pages={artifactPages} openLightbox={openLightbox} />}
+      />
+      <CompetitorBoard competitors={data.competitors} />
+      <section className="artifact-grid two-up">
+        <ArtifactViewer
+          title="Concept Sketch"
+          label="Sketch artifact"
+          image={assetPath('/portfolio/featured/hand-sketch.jpg')}
+          detail="Focused sketch crop from the portfolio, shown fully inside the frame."
+          onOpen={() => openLightbox(artifactPages, 0)}
+        />
+        <ArtifactViewer
+          title="Design Matrix"
+          label="Decision artifact"
+          image={assetPath('/portfolio/featured/design-matrix.jpg')}
+          detail="Focused design matrix crop, shown fully inside the frame."
+          onOpen={() => openLightbox(artifactPages, 1)}
+        />
+      </section>
+      <section className="research-layout">
+        <div className="text-panel">
+          <p className="section-label">Competitor Analysis</p>
+          <h2>Reusable brands solve durability, but still leave gaps.</h2>
+          <p>
+            The portfolio compares reusable water bottle companies and disposable bottle leaders.
+            FTCS uses that research to focus on sustainable materials, long-term reuse, cost, and a
+            design that still feels familiar to everyday users.
+          </p>
+        </div>
+        <ArtifactViewer
+          title="Competitor Products"
+          label="Research artifact"
+          image={assetPath('/portfolio/full/page-23.jpg')}
+          detail="Original portfolio artifact showing the competitor product research."
+          onOpen={() => openLightbox(artifactPages, 2)}
+          compact
+        />
+      </section>
+    </div>
+  )
+}
+
+function HeroArtifactPair({ pages, openLightbox }) {
+  const cards = [
+    { title: 'Concept Sketch', image: assetPath('/portfolio/featured/hand-sketch.jpg'), pageIndex: 0, icon: PenTool },
+    { title: 'Design Matrix', image: assetPath('/portfolio/featured/design-matrix.jpg'), pageIndex: 1, icon: Layers3 }
+  ]
+
+  return (
+    <div className="hero-artifact-pair">
+      {cards.map((card, index) => {
+        const Icon = card.icon
+        return (
+          <button
+            type="button"
+            key={card.title}
+            className="hero-artifact-card"
+            style={{ '--tilt': index === 0 ? '-1.2deg' : '1.1deg' }}
+            onClick={() => openLightbox(pages, card.pageIndex)}
+          >
+            <div className="hero-artifact-card-top">
+              <span>
+                <Icon size={16} />
+                {card.title}
+              </span>
+              <Maximize2 size={16} />
+            </div>
+            <img src={card.image} alt={card.title} />
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function CompetitorBoard({ competitors }) {
+  return (
+    <div className="competitor-board kinetic-board">
+      {competitors.map((competitor, index) => (
+        <button className="competitor-tile" style={{ '--delay': `${index * 70}ms` }} key={competitor} type="button">
+          <span>{competitor.slice(0, 2).toUpperCase()}</span>
+          {competitor}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function DesignPage({ data, openLightbox }) {
+  const [activePhase, setActivePhase] = useState(0)
+  const phase = data.phases[activePhase]
+  const phasePages = phase.pages.map((pageNo) => data.pages.find((page) => page.page === pageNo)).filter(Boolean)
+  const designMatrixArtifact = {
+    ...data.pages.find((page) => page.page === 30),
+    category: 'Decision artifact',
+    full: assetPath('/portfolio/featured/design-matrix.jpg'),
+    thumb: assetPath('/portfolio/featured/design-matrix.jpg')
+  }
+
+  return (
+    <div className="page-stack">
+      <PageHero
+        label="Design Process"
+        title="Six phases, now handled like a project control room."
+        text="Use the phase rail to switch between real portfolio phases. Each preview is contained, readable, and connected to the source artifact."
+        actions={
+          <button type="button" className="primary-button" onClick={() => openLightbox(phasePages, 0)}>
+            Inspect Phase Artifacts
+            <Maximize2 size={18} />
+          </button>
+        }
+        visual={<PhaseRail phases={data.phases} activePhase={activePhase} setActivePhase={setActivePhase} />}
+      />
+      <section className="phase-console">
+        <div className="phase-copy">
+          <p className="section-label">{phase.label}</p>
+          <h2>{phase.title}</h2>
+          <p>{phase.summary}</p>
+          <ul className="artifact-list">
+            {phase.artifacts.map((artifact) => (
+              <li key={artifact}>
+                <CheckCircle2 size={18} />
+                {artifact}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <ArtifactViewer
+          title={`${phase.label} preview`}
+          label="Linked artifacts"
+          image={phase.image}
+          detail="Contained preview from the original portfolio or CAD asset."
+          onOpen={() => openLightbox(phasePages, 0)}
+          compact
+        />
+      </section>
+      <section className="artifact-grid three-up">
+        <ArtifactViewer
+          title="Design Matrix"
+          label="Decision artifact"
+          image={assetPath('/portfolio/featured/design-matrix.jpg')}
+          detail="Focused design-matrix crop, with the original image available in the lightbox."
+          onOpen={() => openLightbox([designMatrixArtifact], 0)}
+        />
+        <ArtifactViewer
+          title="Technical Sketches"
+          label="Sketch artifact"
+          image={assetPath('/portfolio/full/page-32.jpg')}
+          detail="Technical sketch evidence from Phase 3."
+          onOpen={() => openLightbox([data.pages.find((page) => page.page === 32)], 0)}
+        />
+        <ArtifactViewer
+          title="Specifications"
+          label="Spec artifact"
+          image={assetPath('/portfolio/full/page-37.jpg')}
+          detail="Measurable material, durability, and lifecycle criteria."
+          onOpen={() => openLightbox([data.pages.find((page) => page.page === 37)], 0)}
+        />
+      </section>
+    </div>
+  )
+}
+
+function PhaseRail({ phases, activePhase, setActivePhase }) {
+  return (
+    <div className="phase-rail" role="tablist" aria-label="Project phases">
+      {phases.map((phase, index) => (
+        <button
+          key={phase.id}
+          type="button"
+          role="tab"
+          aria-selected={index === activePhase}
+          className={index === activePhase ? 'is-active' : ''}
+          onClick={() => setActivePhase(index)}
+        >
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <strong>{phase.label}</strong>
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function PrototypePage({ data, openLightbox }) {
+  const [activeSheet, setActiveSheet] = useState(0)
+  const active = cadSheets[activeSheet]
+  const cadPages = cadSheets
+    .map((sheet) => {
+      const source = data.pages.find((page) => page.page === sheet.page)
+      return source && {
+        ...source,
+        title: sheet.title,
+        category: 'CAD artifact',
+        full: sheet.image,
+        thumb: sheet.image
+      }
+    })
+    .filter(Boolean)
+
+  return (
+    <div className="page-stack">
+      <PageHero
+        label="Prototype"
+        title="CAD sheets get the main stage."
+        text="The prototype section uses a sheet switcher and contained CAD previews so drawings stay legible while the interface still feels animated and modern."
+        actions={
+          <button type="button" className="primary-button" onClick={() => openLightbox(cadPages, activeSheet)}>
+            Inspect Sheet
+            <Maximize2 size={18} />
+          </button>
+        }
+        visual={
+          <div className="cad-carousel">
+            <img src={active.image} alt={active.title} />
+            <div className="cad-carousel-label">{active.title}</div>
+          </div>
+        }
+      />
+      <section className="sheet-tabs" role="tablist" aria-label="CAD sheets">
+        {cadSheets.map((sheet, index) => (
+          <button
+            key={sheet.title}
+            type="button"
+            role="tab"
+            aria-selected={index === activeSheet}
+            className={index === activeSheet ? 'is-active' : ''}
+            onClick={() => setActiveSheet(index)}
+          >
+            <PenTool size={18} />
+            <strong>{sheet.title}</strong>
+            <span>{sheet.detail}</span>
+          </button>
+        ))}
+      </section>
+      <section className="prototype-detail">
+        <ArtifactViewer
+          title={active.title}
+          label="CAD artifact"
+          image={active.image}
+          detail={active.detail}
+          onOpen={() => openLightbox(cadPages, activeSheet)}
+          wide
+        />
+        <div className="spec-list">
+          {data.specifications.map((spec) => (
+            <article key={spec.name} className="spec-item reveal-card">
+              <span>{spec.name}</span>
+              <p>{spec.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function ReviewsPage({ data, navigate }) {
+  return (
+    <div className="page-stack">
+      <PageHero
+        label="Peer Review"
+        title="The review section separates strengths, fixes, and final reflection."
+        text={data.feedback.reflection}
+        actions={
+          <button type="button" className="primary-button" onClick={() => navigate('/portfolio')}>
+            View Archive
+            <ArrowRight size={18} />
+          </button>
+        }
+        visual={<TeamPanel team={data.team} />}
+      />
+      <section className="review-grid">
+        <ReviewColumn title="Strengths" items={data.feedback.strengths} tone="good" />
+        <ReviewColumn title="Areas of growth" items={data.feedback.growth} tone="growth" />
+        <article className="review-column reflection-card">
+          <h3>Final takeaway</h3>
+          <p>
+            The project moved from a rough first phase into a clearer engineering process by using
+            meetings, earlier deadlines, AutoCAD progress, peer feedback, and a stronger presentation
+            checklist.
+          </p>
+        </article>
+      </section>
+    </div>
+  )
+}
+
+function TeamPanel({ team }) {
+  return (
+    <div className="team-panel">
+      {team.map((member, index) => (
+        <article style={{ '--delay': `${index * 90}ms` }} key={member.name}>
+          <strong>{member.name}</strong>
+          <span>{member.role}</span>
+        </article>
+      ))}
+    </div>
+  )
+}
+
+function ReviewColumn({ title, items, tone }) {
+  return (
+    <article className={`review-column ${tone || ''}`}>
+      <h3>{title}</h3>
+      <ul>
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </article>
+  )
+}
+
+function PortfolioPage({ data, visiblePages, filter, setFilter, openLightbox }) {
+  return (
+    <div className="page-stack">
+      <PageHero
+        label="Portfolio Archive"
+        title="The full engineering archive is organized by stage."
+        text="Filter by stage, open any artifact, and use the lightbox controls to inspect the original portfolio images without losing the app route."
+        visual={
+          <div className="archive-counter">
+            <strong>{visiblePages.length}</strong>
+            <span>active artifacts</span>
+            <small>{filter === 'all' ? 'Complete archive selected' : `${filter} stage selected`}</small>
+          </div>
+        }
+      />
+      <div className="filter-row" role="tablist" aria-label="Filter portfolio archive">
+        {galleryFilters.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            className={filter === item.id ? 'is-active' : ''}
+            aria-selected={filter === item.id}
+            onClick={() => setFilter(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+      <div className="page-grid">
+        {visiblePages.map((page, index) => (
+          <button
+            key={page.page}
+            className="page-tile reveal-card"
+            type="button"
+            onClick={() => openLightbox(visiblePages, index)}
+          >
+            <img src={page.thumb} alt={page.title} loading="lazy" />
+            <span>{page.category}</span>
+            <strong>{page.title}</strong>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ArtifactViewer({ title, label, image, detail, onOpen, compact = false, wide = false }) {
+  return (
+    <article className={`artifact-viewer ${compact ? 'compact' : ''} ${wide ? 'wide' : ''}`}>
+      <div className="artifact-topline">
+        <span>{label}</span>
+        <button type="button" onClick={onOpen} aria-label={`Open ${title}`}>
+          <Maximize2 size={16} />
+          Inspect
+        </button>
+      </div>
+      <button type="button" className="artifact-image-frame" onClick={onOpen}>
+        <img src={image} alt={title} loading="lazy" />
+      </button>
+      <div className="artifact-copy">
+        <h3>{title}</h3>
+        <p>{detail}</p>
+      </div>
+    </article>
+  )
+}
+
+function Lightbox({ pages, lightboxIndex, setLightboxIndex }) {
+  if (lightboxIndex === null || !pages[lightboxIndex]) return null
+
+  const page = pages[lightboxIndex]
+  const previous = () => setLightboxIndex((lightboxIndex - 1 + pages.length) % pages.length)
+  const next = () => setLightboxIndex((lightboxIndex + 1) % pages.length)
+
+  return (
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${page.title} preview`}>
+      <div className="lightbox-top">
+        <div>
+          <span>{page.category}</span>
+          <strong>{page.title}</strong>
+        </div>
+        <button className="icon-button" type="button" aria-label="Close preview" onClick={() => setLightboxIndex(null)}>
+          <X size={22} />
+        </button>
+      </div>
+      {pages.length > 1 && (
+        <button className="lightbox-nav prev" type="button" aria-label="Previous artifact" onClick={previous}>
+          <ChevronLeft size={28} />
+        </button>
+      )}
+      <img src={page.full} alt={page.title} />
+      {pages.length > 1 && (
+        <button className="lightbox-nav next" type="button" aria-label="Next artifact" onClick={next}>
+          <ChevronRight size={28} />
+        </button>
+      )}
+    </div>
+  )
+}
