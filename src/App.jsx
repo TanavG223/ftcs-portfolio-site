@@ -5,8 +5,6 @@ import {
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  CircleDot,
-  Gauge,
   GalleryHorizontalEnd,
   Layers3,
   Maximize2,
@@ -218,7 +216,7 @@ function Sidebar({ route, navigate, logo, mobileOpen, setMobileOpen }) {
       <div className="sidebar-brand">
         <img className="team-logo" src={logo} alt="FTCS team logo" />
         <div>
-          <strong>Engineering Portfolio</strong>
+          <strong>Engineering Project</strong>
           <span>Reusable bottle system</span>
         </div>
       </div>
@@ -255,16 +253,6 @@ function TopStatus({ route, mobileOpen, setMobileOpen }) {
       <div className="route-readout">
         <span>{current.label}</span>
         <strong>FTCS / {current.label.toLowerCase()}</strong>
-      </div>
-      <div className="status-pills" aria-label="Project status">
-        <span>
-          <CircleDot size={16} />
-          Expo ready
-        </span>
-        <span>
-          <Gauge size={16} />
-          CAD + research
-        </span>
       </div>
     </header>
   )

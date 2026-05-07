@@ -333,27 +333,6 @@ a {
   font-size: 0.98rem;
 }
 
-.status-pills {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
-}
-
-.status-pills span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 38px;
-  padding: 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--ink-soft);
-  background: rgba(11, 24, 28, 0.86);
-  font-size: 0.86rem;
-  font-weight: 850;
-}
-
 .page-frame {
   width: min(100%, var(--max));
   margin: 0 auto;
@@ -1557,10 +1536,6 @@ a {
   .top-status {
     top: max(10px, env(safe-area-inset-top));
     margin-bottom: 14px;
-  }
-
-  .status-pills span {
-    display: none;
   }
 
   .page-hero {
