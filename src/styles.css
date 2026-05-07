@@ -679,6 +679,9 @@ a {
 .review-column,
 .team-panel,
 .archive-counter,
+.presentation-console,
+.presentation-step,
+.poster-support-card,
 .artifact-viewer,
 .spec-item,
 .sheet-tabs button {
@@ -901,6 +904,7 @@ a {
 }
 
 .artifact-image-frame {
+  position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -940,6 +944,53 @@ a {
 
 .artifact-image-frame:hover img {
   transform: scale(1.018);
+}
+
+.page-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  max-width: calc(100% - 28px);
+  padding: 6px 10px;
+  border: 1px solid rgba(32, 234, 220, 0.36);
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgba(3, 12, 14, 0.86);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+  transform: translateX(-50%);
+  pointer-events: none;
+  backdrop-filter: blur(14px);
+}
+
+.page-dot-count {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.page-dot-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.page-dot-track span {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(239, 255, 251, 0.38);
+}
+
+.page-dot-track span.is-active {
+  width: 18px;
+  background: linear-gradient(135deg, var(--leaf), var(--aqua));
+  box-shadow: 0 0 16px rgba(32, 234, 220, 0.34);
 }
 
 .artifact-copy {
@@ -1285,6 +1336,154 @@ a {
   color: var(--ink-soft);
   line-height: 1.58;
   font-weight: 730;
+}
+
+.presentation-hero {
+  grid-template-columns: minmax(0, 0.98fr) minmax(420px, 0.9fr);
+}
+
+.presentation-console {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 610px);
+  padding: clamp(22px, 4vw, 34px);
+  justify-self: end;
+}
+
+.presentation-console > span,
+.poster-support-card span,
+.presentation-step span {
+  color: var(--aqua-dark);
+  font-family: var(--font-tech);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.presentation-console > strong {
+  color: var(--ink);
+  font-size: clamp(2.3rem, 5vw, 4.3rem);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.presentation-console-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.presentation-console-grid article {
+  min-height: 120px;
+  padding: 14px;
+  border: 1px solid rgba(32, 234, 220, 0.16);
+  border-radius: 8px;
+  background: rgba(4, 13, 15, 0.72);
+}
+
+.presentation-console-grid b,
+.presentation-console-grid small {
+  display: block;
+}
+
+.presentation-console-grid b {
+  color: var(--leaf);
+  font-size: clamp(1.65rem, 3vw, 2.6rem);
+  line-height: 1;
+}
+
+.presentation-console-grid small {
+  margin-top: 10px;
+  color: var(--ink-soft);
+  line-height: 1.35;
+  font-weight: 780;
+}
+
+.presentation-flow,
+.poster-support-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.presentation-flow {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.presentation-step {
+  position: relative;
+  min-height: 300px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.presentation-step strong {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  color: rgba(32, 234, 220, 0.14);
+  font-family: var(--font-tech);
+  font-size: clamp(3.2rem, 6vw, 5.4rem);
+  line-height: 0.85;
+}
+
+.presentation-step h3,
+.poster-support-card h3 {
+  margin: 22px 0 0;
+  color: var(--ink);
+  font-size: 1.25rem;
+}
+
+.presentation-step p,
+.poster-support-card p {
+  color: var(--ink-soft);
+  line-height: 1.52;
+  font-weight: 720;
+}
+
+.poster-support-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.poster-support-card {
+  display: grid;
+  gap: 18px;
+  min-height: 310px;
+  padding: 22px;
+}
+
+.poster-support-card > strong {
+  color: var(--ink);
+  line-height: 1.38;
+  font-size: 1.02rem;
+}
+
+.poster-card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-self: end;
+}
+
+.poster-card-actions button {
+  min-height: var(--touch);
+  padding: 0 12px;
+  border: 1px solid rgba(32, 234, 220, 0.22);
+  border-radius: 8px;
+  color: var(--ink);
+  background: rgba(7, 18, 21, 0.92);
+  font-size: 0.86rem;
+  font-weight: 900;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.poster-card-actions button:hover {
+  border-color: rgba(32, 234, 220, 0.48);
+  background: rgba(32, 234, 220, 0.1);
+  transform: translateY(-2px);
 }
 
 .archive-counter {
@@ -1643,6 +1842,7 @@ a {
   }
 
   .page-hero,
+  .presentation-hero,
   .research-layout,
   .phase-console,
   .prototype-detail {
@@ -1650,7 +1850,9 @@ a {
   }
 
   .metric-grid,
-  .review-grid {
+  .review-grid,
+  .presentation-flow,
+  .poster-support-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1701,8 +1903,15 @@ a {
   .artifact-grid.three-up,
   .sheet-tabs,
   .review-grid,
+  .presentation-flow,
+  .poster-support-grid,
   .team-panel {
     grid-template-columns: 1fr;
+  }
+
+  .presentation-console {
+    justify-self: stretch;
+    width: 100%;
   }
 
   .competitor-board {
@@ -1715,6 +1924,11 @@ a {
 
   .page-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .presentation-console-grid,
+  .poster-card-actions {
+    grid-template-columns: 1fr;
   }
 
   .artifact-viewer,
@@ -1803,6 +2017,12 @@ a {
     max-width: 100%;
   }
 
+  .presentation-console-grid article,
+  .presentation-step,
+  .poster-support-card {
+    min-height: auto;
+  }
+
   .page-grid {
     grid-template-columns: 1fr;
   }
@@ -1872,6 +2092,26 @@ a {
   .artifact-viewer.compact .artifact-image-frame,
   .artifact-viewer.wide .artifact-image-frame {
     min-height: min(72vh, 420px);
+  }
+
+  .page-dots {
+    bottom: 10px;
+    gap: 8px;
+    min-height: 30px;
+    padding: 5px 8px;
+  }
+
+  .page-dot-count {
+    font-size: 0.66rem;
+  }
+
+  .page-dot-track span {
+    width: 6px;
+    height: 6px;
+  }
+
+  .page-dot-track span.is-active {
+    width: 15px;
   }
 }
 

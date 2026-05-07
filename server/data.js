@@ -571,6 +571,88 @@ const portfolioData = {
       ]
     }
   ],
+  presentationFlow: [
+    {
+      time: '0:00',
+      title: 'Open with the waste problem',
+      detail:
+        'Start with why disposable bottle convenience creates long-term plastic waste, then introduce FTCS as a reusable bottle system designed to feel familiar while reducing waste.'
+    },
+    {
+      time: '0:45',
+      title: 'Show research and competitors',
+      detail:
+        'Use polling, competitor products, and the market comparison to explain what users expect: durability, portability, low cost, and a bottle that can replace daily single-use bottles.'
+    },
+    {
+      time: '1:45',
+      title: 'Explain the selected design',
+      detail:
+        'Point to the design matrix and specifications to show how the team selected the concept using material, weight, durability, ease of use, and end-of-life disposal criteria.'
+    },
+    {
+      time: '2:45',
+      title: 'Walk through CAD prototype evidence',
+      detail:
+        'Use the AutoCAD bottle, no-cap body, and replacement cap drawings to prove the concept is more than an idea and is ready for physical prototype planning.'
+    },
+    {
+      time: '3:45',
+      title: 'Close with review and readiness',
+      detail:
+        'Finish by explaining how peer review improved the pitch, what the team would test next, and why the website works as the live portfolio archive behind the poster.'
+    }
+  ],
+  posterSections: [
+    {
+      title: 'Problem statement',
+      route: '/research',
+      evidence: 'Problem statement and competitor analysis',
+      pages: [8, 10],
+      detail:
+        'Use this when someone asks what problem the product solves and how existing bottles compare.'
+    },
+    {
+      title: 'Research and users',
+      route: '/research',
+      evidence: 'Polling, competitor products, and concept sketches',
+      pages: [21, 23, 26],
+      detail:
+        'Backs up the poster with user research, market examples, and early design direction.'
+    },
+    {
+      title: 'Design decision',
+      route: '/design',
+      evidence: 'Design matrix and design specifications',
+      pages: [30, 37],
+      detail:
+        'Shows why the final direction was chosen and what requirements the bottle must meet.'
+    },
+    {
+      title: 'Prototype',
+      route: '/prototype',
+      evidence: 'AutoCAD bottle, no-cap body, and replacement cap',
+      pages: [43, 48, 54],
+      detail:
+        'Gives the audience detailed CAD evidence if they want to inspect the engineering drawings.'
+    },
+    {
+      title: 'Review and reflection',
+      route: '/reviews',
+      evidence: 'Peer review, feedback response, and final reflections',
+      pages: [58, 61, 64],
+      detail:
+        'Explains how the team responded to feedback and improved the final pitch.'
+    },
+    {
+      title: 'Presentation readiness',
+      route: '/portfolio',
+      evidence: 'Pre-presentation and post-presentation checklists',
+      pages: [70, 71],
+      detail:
+        'Confirms the poster, QR code, portfolio site, and presentation materials are ready.'
+    }
+  ],
   assets: {
     heroCad: '/portfolio/featured/autocad-bottle-sketch.jpg',
     noCap: '/portfolio/featured/autocad-bottle-nocap.jpg',

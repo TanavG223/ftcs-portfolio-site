@@ -9,6 +9,7 @@ import {
   Layers3,
   Maximize2,
   Menu,
+  MonitorUp,
   MessageSquareText,
   PenTool,
   Route,
@@ -64,6 +65,7 @@ const routes = [
   { path: '/design', label: 'Design', icon: Route },
   { path: '/prototype', label: 'Prototype', icon: Bot },
   { path: '/reviews', label: 'Reviews', icon: MessageSquareText },
+  { path: '/presentation', label: 'Present', icon: MonitorUp },
   { path: '/portfolio', label: 'Portfolio', icon: GalleryHorizontalEnd }
 ]
 
@@ -186,6 +188,9 @@ export default function App() {
             {route === '/design' && <DesignPage data={data} openLightbox={openLightbox} />}
             {route === '/prototype' && <PrototypePage data={data} openLightbox={openLightbox} />}
             {route === '/reviews' && <ReviewsPage data={data} navigate={navigate} />}
+            {route === '/presentation' && (
+              <PresentationPage data={data} navigate={navigate} openLightbox={openLightbox} />
+            )}
             {route === '/portfolio' && (
               <PortfolioPage
                 data={data}
@@ -377,6 +382,7 @@ function routeDescription(path) {
     '/design': 'A six-phase process that moves from criteria to a selected design.',
     '/prototype': 'AutoCAD bottle and cap drawings tied back to measurable specs.',
     '/reviews': 'Peer feedback, team reflection, and final presentation improvements.',
+    '/presentation': 'Poster companion, talking flow, and evidence links for the expo.',
     '/portfolio': 'Complete project evidence organized by engineering stage.'
   }
   return map[path]
@@ -468,6 +474,7 @@ function ResearchPage({ data, navigate, openLightbox }) {
           image={assetPath('/portfolio/featured/hand-sketch.jpg')}
           detail="Early bottle sketch exploring overall form, grip, cap placement, and the direction that moved into technical drawings."
           onOpen={() => openLightbox(sketchPages, Math.max(0, sketchPages.findIndex((page) => page.page === 26)))}
+          pageCount={sketchPages.length}
         />
         <ArtifactViewer
           title="Design Matrix"
@@ -475,6 +482,7 @@ function ResearchPage({ data, navigate, openLightbox }) {
           image={assetPath('/portfolio/featured/design-matrix.jpg')}
           detail="Decision matrix comparing bottle concepts against environmental impact, durability, access, lightweight design, and end-of-life disposal."
           onOpen={() => openLightbox(matrixPages, Math.max(0, matrixPages.findIndex((page) => page.page === 30)))}
+          pageCount={matrixPages.length}
         />
       </section>
       <section className="research-layout">
@@ -493,6 +501,7 @@ function ResearchPage({ data, navigate, openLightbox }) {
           image={assetPath('/portfolio/full/page-23.jpg')}
           detail="Research artifact comparing familiar disposable and reusable bottle products before the FTCS design was selected."
           onOpen={() => openLightbox(competitorPages, 0)}
+          pageCount={competitorPages.length}
           compact
         />
       </section>
@@ -621,6 +630,7 @@ function DesignPage({ data, openLightbox }) {
           image={phase.image}
           detail="Key evidence from this phase of the FTCS engineering portfolio."
           onOpen={() => openLightbox(phasePages, 0)}
+          pageCount={phasePages.length}
           compact
         />
       </section>
@@ -633,6 +643,7 @@ function DesignPage({ data, openLightbox }) {
             image={document.image}
             detail={document.detail}
             onOpen={() => openLightbox(document.pages, 0)}
+            pageCount={document.pages.length}
             compact={phaseDocuments.length > 3}
           />
         ))}
@@ -719,6 +730,7 @@ function PrototypePage({ data, openLightbox }) {
           image={active.image}
           detail={active.detail}
           onOpen={() => openLightbox(cadPages, activeSheet)}
+          pageCount={cadPages.length}
           wide
         />
         <div className="spec-list">
@@ -767,6 +779,93 @@ function ReviewsPage({ data, navigate }) {
           <ReviewColumn key={column.title} title={column.title} items={column.items} />
         ))}
       </section>
+    </div>
+  )
+}
+
+function PresentationPage({ data, navigate, openLightbox }) {
+  const checklistPages = [70, 71].map((pageNo) => data.pages.find((page) => page.page === pageNo)).filter(Boolean)
+  const posterSections = data.posterSections.map((section) => ({
+    ...section,
+    pages: section.pages.map((pageNo) => data.pages.find((page) => page.page === pageNo)).filter(Boolean)
+  }))
+
+  return (
+    <div className="page-stack">
+      <PageHero
+        label="Poster Companion"
+        title="Use the site as the presentation-ready portfolio behind the poster."
+        text="The poster can stay visual and simple. This page gives the audience fast proof: the talking flow, every poster section, and the exact portfolio artifacts behind each claim."
+        className="presentation-hero"
+        actions={
+          <>
+            <button type="button" className="primary-button" onClick={() => openLightbox(checklistPages, 0)}>
+              Inspect Checklist
+              <Maximize2 size={18} />
+            </button>
+            <button type="button" className="secondary-button" onClick={() => navigate('/portfolio')}>
+              Full Archive
+              <GalleryHorizontalEnd size={18} />
+            </button>
+          </>
+        }
+        visual={<PresentationConsole data={data} />}
+      />
+
+      <section className="presentation-flow" aria-label="Five minute presentation flow">
+        {data.presentationFlow.map((step, index) => (
+          <article className="presentation-step reveal-card" key={step.title}>
+            <span>{step.time}</span>
+            <strong>{String(index + 1).padStart(2, '0')}</strong>
+            <h3>{step.title}</h3>
+            <p>{step.detail}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="poster-support-grid" aria-label="Poster evidence support">
+        {posterSections.map((section, index) => (
+          <article className="poster-support-card reveal-card" key={section.title}>
+            <div>
+              <span>Poster section {String(index + 1).padStart(2, '0')}</span>
+              <h3>{section.title}</h3>
+              <p>{section.detail}</p>
+            </div>
+            <strong>{section.evidence}</strong>
+            <div className="poster-card-actions">
+              <button type="button" onClick={() => openLightbox(section.pages, 0)}>
+                Inspect Evidence
+              </button>
+              <button type="button" onClick={() => navigate(section.route)}>
+                Open Section
+              </button>
+            </div>
+          </article>
+        ))}
+      </section>
+    </div>
+  )
+}
+
+function PresentationConsole({ data }) {
+  return (
+    <div className="presentation-console">
+      <span>Expo mode</span>
+      <strong>Poster + live portfolio</strong>
+      <div className="presentation-console-grid">
+        <article>
+          <b>{data.posterSections.length}</b>
+          <small>poster sections backed by evidence</small>
+        </article>
+        <article>
+          <b>5 min</b>
+          <small>talking flow with CAD proof</small>
+        </article>
+        <article>
+          <b>71</b>
+          <small>portfolio artifacts available</small>
+        </article>
+      </div>
     </div>
   )
 }
@@ -843,7 +942,7 @@ function PortfolioPage({ data, visiblePages, filter, setFilter, openLightbox }) 
   )
 }
 
-function ArtifactViewer({ title, label, image, detail, onOpen, compact = false, wide = false }) {
+function ArtifactViewer({ title, label, image, detail, onOpen, pageCount = 1, compact = false, wide = false }) {
   return (
     <article className={`artifact-viewer ${compact ? 'compact' : ''} ${wide ? 'wide' : ''}`}>
       <div className="artifact-topline">
@@ -855,12 +954,30 @@ function ArtifactViewer({ title, label, image, detail, onOpen, compact = false, 
       </div>
       <button type="button" className="artifact-image-frame" onClick={onOpen}>
         <img src={image} alt={title} loading="eager" />
+        <PageDots count={pageCount} />
       </button>
       <div className="artifact-copy">
         <h3>{title}</h3>
         <p>{detail}</p>
       </div>
     </article>
+  )
+}
+
+function PageDots({ count }) {
+  if (count <= 1) return null
+
+  const visibleDots = Array.from({ length: Math.min(count, 8) })
+
+  return (
+    <span className="page-dots" aria-label={`${count} linked images`}>
+      <span className="page-dot-count">{count} images</span>
+      <span className="page-dot-track" aria-hidden="true">
+        {visibleDots.map((_, index) => (
+          <span key={index} className={index === 0 ? 'is-active' : ''} />
+        ))}
+      </span>
+    </span>
   )
 }
 
