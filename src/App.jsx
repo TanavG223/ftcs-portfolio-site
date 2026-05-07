@@ -355,7 +355,14 @@ function HeroCadShowcase({ data, openLightbox }) {
         onClick={() => openLightbox(cadPages, 0)}
       >
         <img src={data.assets.heroCad} alt="AutoCAD drawing of the FTCS bottle" />
+        <span className="viewer-action">
+          <Maximize2 size={16} />
+          Inspect CAD
+        </span>
       </button>
+      <div className="floating-measure measure-a">PLA / 1mm</div>
+      <div className="floating-measure measure-b">Phase 4 prototype</div>
+      <div className="floating-measure measure-c">R10 bottle contour</div>
     </div>
   )
 }

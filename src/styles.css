@@ -487,6 +487,60 @@ a {
   background: var(--cad);
 }
 
+.viewer-action {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  color: #fff;
+  background: rgba(7, 18, 22, 0.84);
+  font-weight: 900;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+}
+
+.floating-measure {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(32, 234, 220, 0.28);
+  border-radius: 8px;
+  color: var(--ink);
+  background: rgba(5, 14, 17, 0.9);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+  font-weight: 950;
+  pointer-events: none;
+  animation: bob 4.8s ease-in-out infinite;
+}
+
+.measure-a {
+  left: -12px;
+  bottom: 31%;
+}
+
+.measure-b {
+  right: -12px;
+  top: 12%;
+  animation-delay: 600ms;
+}
+
+.measure-c {
+  left: 50%;
+  bottom: -14px;
+  translate: -50% 0;
+  animation-delay: 1200ms;
+}
+
 .hero-artifact-pair {
   display: grid;
   grid-template-columns: 1fr;
@@ -1653,8 +1707,41 @@ a {
     padding: 7px 9px;
   }
 
+  .hero-cad-showcase {
+    padding-bottom: 28px;
+  }
+
   .cad-sheet-button {
     transform: none;
+  }
+
+  .viewer-action {
+    right: 10px;
+    bottom: 10px;
+    min-height: 36px;
+    padding: 8px 10px;
+    gap: 6px;
+    font-size: 0.84rem;
+  }
+
+  .floating-measure {
+    min-height: 34px;
+    padding: 0 9px;
+    font-size: 0.78rem;
+  }
+
+  .measure-a {
+    left: 8px;
+    bottom: 30%;
+  }
+
+  .measure-b {
+    right: 8px;
+    top: 8%;
+  }
+
+  .measure-c {
+    bottom: 0;
   }
 
   .cad-carousel img {
