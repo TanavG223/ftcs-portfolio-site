@@ -466,6 +466,7 @@ a {
 
 .cad-sheet-button {
   position: relative;
+  aspect-ratio: 1.34;
   overflow: hidden;
   border: 1px solid rgba(32, 234, 220, 0.24);
   background: var(--cad);
@@ -480,57 +481,11 @@ a {
 
 .cad-sheet-button img {
   width: 100%;
-  aspect-ratio: 1.15;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 64%;
+  transform: scale(1.28);
   background: var(--cad);
-}
-
-.viewer-action {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 8px;
-  color: #fff;
-  background: rgba(7, 18, 22, 0.84);
-  font-weight: 900;
-  backdrop-filter: blur(10px);
-}
-
-.floating-measure {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  min-height: 40px;
-  padding: 0 12px;
-  border: 1px solid rgba(32, 234, 220, 0.24);
-  border-radius: 8px;
-  color: var(--ink);
-  background: rgba(5, 14, 17, 0.9);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
-  font-weight: 950;
-  animation: bob 4.8s ease-in-out infinite;
-}
-
-.measure-a {
-  left: -16px;
-  bottom: 24%;
-}
-
-.measure-b {
-  right: -14px;
-  top: 12%;
-  animation-delay: 600ms;
-}
-
-.measure-c {
-  left: 28%;
-  bottom: -16px;
-  animation-delay: 1200ms;
 }
 
 .hero-artifact-pair {
@@ -1699,16 +1654,10 @@ a {
     padding: 7px 9px;
   }
 
-  .floating-measure {
-    position: static;
-    margin-top: 8px;
-  }
-
   .cad-sheet-button {
     transform: none;
   }
 
-  .cad-sheet-button img,
   .cad-carousel img {
     aspect-ratio: 1;
   }
