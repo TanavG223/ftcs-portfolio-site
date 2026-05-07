@@ -1,22 +1,74 @@
 const pageTitleMap = {
-  1: 'Members logo',
-  2: 'FTCS members',
+  1: 'FTCS team logo',
+  2: 'FTCS team roster',
+  3: 'Engineering design process overview',
+  4: 'Phase 1 kickoff',
+  5: 'Plastic waste research kickoff',
+  6: 'Team planning setup',
+  7: 'Environmental impact context',
   8: 'Problem statement',
+  9: 'Background research notes',
   10: 'Competitor analysis',
-  16: 'Gantt chart',
-  21: 'Polling form link',
+  11: 'Team roles and responsibilities',
+  12: 'Group contract',
+  13: 'Collaboration expectations',
+  14: 'Team agreement details',
+  15: 'Timeline planning notes',
+  16: 'Project Gantt chart',
+  17: 'Phase 1 checkpoint',
+  18: 'Phase 2 kickoff',
+  19: 'User research kickoff',
+  20: 'Research question framing',
+  21: 'User polling form',
+  22: 'Survey planning notes',
   23: 'Competitor products',
+  24: 'Market comparison notes',
+  25: 'Concept development kickoff',
   26: 'Concept sketch',
+  27: 'Phase 2 checkpoint',
+  28: 'Phase 3 kickoff',
+  29: 'Decision criteria',
   30: 'Design matrix',
+  31: 'Selected concept rationale',
   32: 'Technical sketches',
+  33: 'Sketch annotation pass',
   34: 'Presentation feedback',
+  35: 'Design refinement notes',
+  36: 'Requirements planning',
   37: 'Design specifications',
+  38: 'Testing criteria',
+  39: 'Manufacturing considerations',
+  40: 'Phase 3 checkpoint',
+  41: 'Phase 4 kickoff',
+  42: 'CAD modeling setup',
   43: 'AutoCAD bottle drawing',
+  44: 'Bottle drawing details',
+  45: 'Bottle geometry dimensions',
+  46: 'Material callouts',
+  47: 'Bottle drawing check',
   48: 'Bottle without cap',
+  49: 'Cap interface notes',
+  50: 'Neck and thread planning',
+  51: 'Prototype revision notes',
+  52: 'Model review notes',
+  53: 'Final CAD check',
   54: 'Cap redesign',
+  55: 'Phase 4 checkpoint',
+  56: 'Phase 5 kickoff',
+  57: 'Peer review setup',
   58: 'Our peer review',
+  59: 'Peer review strengths',
+  60: 'Peer review improvements',
   61: 'Peer review we provided',
+  62: 'Review response plan',
+  63: 'Reflection kickoff',
   64: 'Project reflections',
+  65: 'Phase 1 reflection',
+  66: 'Phase 2 reflection',
+  67: 'Phase 3 and CAD reflection',
+  68: 'Final preparation kickoff',
+  69: 'Presentation practice notes',
+  70: 'Expo readiness notes',
   71: 'Presentation checklist'
 }
 
@@ -36,7 +88,7 @@ const pages = Array.from({ length: 71 }, (_, index) => {
   const page = index + 1
   return {
     page,
-    title: pageTitleMap[page] || `Portfolio page ${page}`,
+    title: pageTitleMap[page] || 'Engineering process artifact',
     category: categoryForPage(page),
     full: `/portfolio/full/page-${String(page).padStart(2, '0')}.jpg`,
     thumb: `/portfolio/thumb/page-${String(page).padStart(2, '0')}.jpg`
@@ -49,7 +101,7 @@ const phases = [
     label: 'Phase 1',
     title: 'Define the problem and team rules',
     summary:
-      'The team framed the plastic bottle waste problem, compared reusable bottle competitors, created a group contract, and set project roles.',
+      'The team framed the disposable-plastic bottle problem, compared reusable bottle competitors, created a group contract, and assigned clear roles before design work began.',
     artifacts: ['Problem statement', 'Competitor analysis', 'Group contract', 'Gantt chart'],
     pages: [8, 10, 12, 16],
     image: '/portfolio/full/page-08.jpg'
@@ -59,7 +111,7 @@ const phases = [
     label: 'Phase 2',
     title: 'Research market behavior and early sketches',
     summary:
-      'Research focused on user polling, existing disposable and reusable brands, and first water bottle sketch directions.',
+      'Research focused on user polling, disposable and reusable bottle brands, and early sketch directions for a familiar bottle shape with a lower-waste lifecycle.',
     artifacts: ['Polling form', 'Competitor products', 'Concept sketches'],
     pages: [21, 23, 26],
     image: '/portfolio/full/page-26.jpg'
@@ -79,7 +131,7 @@ const phases = [
     label: 'Phase 4',
     title: 'Model the bottle and cap in AutoCAD',
     summary:
-      'AutoCAD drawings defined a reusable bottle body and a replacement cap, including dimensional callouts, material notes, and no-cap views.',
+      'AutoCAD drawings defined the reusable bottle body and replacement cap, including dimensional callouts, material notes, and no-cap views for the opening and closure.',
     artifacts: ['Bottle CAD', 'No-cap body', 'Replacement cap'],
     pages: [43, 48, 54],
     image: '/portfolio/featured/autocad-bottle-full.jpg'
@@ -111,7 +163,7 @@ const portfolioData = {
     name: 'FTCS',
     title: 'Reusable Bottle, Engineered for Less Waste',
     subtitle:
-      'A student engineering portfolio for a recyclable or biodegradable reusable water bottle designed to keep disposable plastic convenience while reducing long-term environmental harm.',
+      'An engineering design project for a recyclable or biodegradable reusable water bottle that keeps the convenience of a disposable bottle while reducing long-term plastic waste.',
     expoDate: 'April 29, 2026',
     portfolioPdf: '/FTCS-Portfolio.pdf',
     logo: '/portfolio/featured/ftcs-logo-team.jpg'
@@ -123,10 +175,10 @@ const portfolioData = {
     { name: 'Fernando Azuaje', role: 'Presentation / Design Support' }
   ],
   stats: [
-    { value: '1M+', label: 'plastic water bottles bought every minute globally' },
-    { value: '70%', label: 'plastic bottles estimated to end up in landfill or the ocean' },
+    { value: '1M+', label: 'plastic water bottles bought every minute worldwide' },
+    { value: '70%', label: 'plastic bottles estimated to end up in landfill, oceans, or low-value waste streams' },
     { value: '500', label: 'reuse cycles targeted without structural failure' },
-    { value: '<350g', label: 'target weight for a 1 liter bottle' }
+    { value: '<350g', label: 'target weight for a one-liter bottle' }
   ],
   specifications: [
     {

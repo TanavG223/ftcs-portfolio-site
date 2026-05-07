@@ -259,7 +259,7 @@ function TopStatus({ route, mobileOpen, setMobileOpen }) {
       <div className="status-pills" aria-label="Project status">
         <span>
           <CircleDot size={16} />
-          Live build
+          Expo ready
         </span>
         <span>
           <Gauge size={16} />
@@ -360,11 +360,11 @@ function HeroCadShowcase({ data, openLightbox }) {
 
 function routeDescription(path) {
   const map = {
-    '/research': 'Competitors, polling, sketches, and matrix artifacts.',
-    '/design': 'Six project phases with active phase previews.',
-    '/prototype': 'CAD sheets, cap redesign, and specs.',
-    '/reviews': 'Peer feedback, strengths, growth, and team roles.',
-    '/portfolio': 'Rendered portfolio archive with inspectable images.'
+    '/research': 'Problem framing, polling, competitors, and early concept evidence.',
+    '/design': 'A six-phase process that moves from criteria to a selected design.',
+    '/prototype': 'AutoCAD bottle and cap drawings tied back to measurable specs.',
+    '/reviews': 'Peer feedback, team reflection, and final presentation improvements.',
+    '/portfolio': 'Complete project evidence organized by engineering stage.'
   }
   return map[path]
 }
@@ -409,8 +409,8 @@ function ResearchPage({ data, navigate, openLightbox }) {
     <div className="page-stack">
       <PageHero
         label="Research"
-        title="Sketches and matrix stay fully visible."
-        text="The research section puts the sketch and design matrix directly in the first viewport. Both previews use contain-fit framing, so the full artifact is visible instead of being cropped."
+        title="Research turned the plastic waste problem into design criteria."
+        text="FTCS studied disposable and reusable bottle competitors, gathered user input through polling, and converted that research into early sketches and a decision matrix for the final concept."
         actions={
           <>
             <button type="button" className="primary-button" onClick={() => openLightbox(artifactPages, 0)}>
@@ -431,14 +431,14 @@ function ResearchPage({ data, navigate, openLightbox }) {
           title="Concept Sketch"
           label="Sketch artifact"
           image={assetPath('/portfolio/featured/hand-sketch.jpg')}
-          detail="Focused sketch crop from the portfolio, shown fully inside the frame."
+          detail="Early bottle sketch exploring overall form, grip, cap placement, and the direction that moved into technical drawings."
           onOpen={() => openLightbox(artifactPages, 0)}
         />
         <ArtifactViewer
           title="Design Matrix"
           label="Decision artifact"
           image={assetPath('/portfolio/featured/design-matrix.jpg')}
-          detail="Focused design matrix crop, shown fully inside the frame."
+          detail="Decision matrix comparing bottle concepts against environmental impact, durability, access, lightweight design, and end-of-life disposal."
           onOpen={() => openLightbox(artifactPages, 1)}
         />
       </section>
@@ -456,7 +456,7 @@ function ResearchPage({ data, navigate, openLightbox }) {
           title="Competitor Products"
           label="Research artifact"
           image={assetPath('/portfolio/full/page-23.jpg')}
-          detail="Original portfolio artifact showing the competitor product research."
+          detail="Research artifact comparing familiar disposable and reusable bottle products before the FTCS design was selected."
           onOpen={() => openLightbox(artifactPages, 2)}
           compact
         />
@@ -526,8 +526,8 @@ function DesignPage({ data, openLightbox }) {
     <div className="page-stack">
       <PageHero
         label="Design Process"
-        title="Six phases, now handled like a project control room."
-        text="Use the phase rail to switch between real portfolio phases. Each preview is contained, readable, and connected to the source artifact."
+        title="The design process moved from research to a testable bottle concept."
+        text="Each phase narrowed the project: define the problem, research users and competitors, select the strongest concept, model it in AutoCAD, respond to peer review, and prepare the final presentation."
         actions={
           <button type="button" className="primary-button" onClick={() => openLightbox(phasePages, 0)}>
             Inspect Phase Artifacts
@@ -551,10 +551,10 @@ function DesignPage({ data, openLightbox }) {
           </ul>
         </div>
         <ArtifactViewer
-          title={`${phase.label} preview`}
+          title={phase.title}
           label="Linked artifacts"
           image={phase.image}
-          detail="Contained preview from the original portfolio or CAD asset."
+          detail="Key evidence from this phase of the FTCS engineering portfolio."
           onOpen={() => openLightbox(phasePages, 0)}
           compact
         />
@@ -564,21 +564,21 @@ function DesignPage({ data, openLightbox }) {
           title="Design Matrix"
           label="Decision artifact"
           image={assetPath('/portfolio/featured/design-matrix.jpg')}
-          detail="Focused design-matrix crop, with the original image available in the lightbox."
+          detail="Weighted comparison used to choose the strongest reusable-bottle direction."
           onOpen={() => openLightbox([designMatrixArtifact], 0)}
         />
         <ArtifactViewer
           title="Technical Sketches"
           label="Sketch artifact"
           image={assetPath('/portfolio/full/page-32.jpg')}
-          detail="Technical sketch evidence from Phase 3."
+          detail="Sketches that translate the selected concept into dimensions, views, and manufacturable features."
           onOpen={() => openLightbox([data.pages.find((page) => page.page === 32)], 0)}
         />
         <ArtifactViewer
           title="Specifications"
           label="Spec artifact"
           image={assetPath('/portfolio/full/page-37.jpg')}
-          detail="Measurable material, durability, and lifecycle criteria."
+          detail="Engineering requirements for material choice, weight, durability, lifecycle impact, leak resistance, and user safety."
           onOpen={() => openLightbox([data.pages.find((page) => page.page === 37)], 0)}
         />
       </section>
@@ -626,8 +626,8 @@ function PrototypePage({ data, openLightbox }) {
     <div className="page-stack">
       <PageHero
         label="Prototype"
-        title="CAD sheets get the main stage."
-        text="The prototype section uses a sheet switcher and contained CAD previews so drawings stay legible while the interface still feels animated and modern."
+        title="AutoCAD translated the selected concept into bottle and cap geometry."
+        text="The prototype work defines the bottle body, no-cap opening, and replacement cap with dimensioned CAD drawings that connect the research criteria to a buildable design."
         actions={
           <button type="button" className="primary-button" onClick={() => openLightbox(cadPages, activeSheet)}>
             Inspect Sheet
@@ -684,11 +684,11 @@ function ReviewsPage({ data, navigate }) {
     <div className="page-stack">
       <PageHero
         label="Peer Review"
-        title="The review section separates strengths, fixes, and final reflection."
+        title="Peer review strengthened the final engineering pitch."
         text={data.feedback.reflection}
         actions={
           <button type="button" className="primary-button" onClick={() => navigate('/portfolio')}>
-            View Archive
+            View Evidence
             <ArrowRight size={18} />
           </button>
         }
@@ -741,13 +741,13 @@ function PortfolioPage({ data, visiblePages, filter, setFilter, openLightbox }) 
     <div className="page-stack">
       <PageHero
         label="Portfolio Archive"
-        title="The full engineering archive is organized by stage."
-        text="Filter by stage, open any artifact, and use the lightbox controls to inspect the original portfolio images without losing the app route."
+        title="The full engineering archive documents every major decision."
+        text="The archive preserves the team logo, research, planning, sketches, CAD work, review notes, reflections, and final presentation checklist as evidence for the FTCS bottle design."
         visual={
           <div className="archive-counter">
             <strong>{visiblePages.length}</strong>
-            <span>active artifacts</span>
-            <small>{filter === 'all' ? 'Complete archive selected' : `${filter} stage selected`}</small>
+            <span>portfolio artifacts</span>
+            <small>{filter === 'all' ? 'Complete archive selected' : `${filter} evidence selected`}</small>
           </div>
         }
       />
@@ -793,7 +793,7 @@ function ArtifactViewer({ title, label, image, detail, onOpen, compact = false, 
         </button>
       </div>
       <button type="button" className="artifact-image-frame" onClick={onOpen}>
-        <img src={image} alt={title} loading="lazy" />
+        <img src={image} alt={title} loading="eager" />
       </button>
       <div className="artifact-copy">
         <h3>{title}</h3>
