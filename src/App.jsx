@@ -271,9 +271,9 @@ function PageTransition({ route, children }) {
   )
 }
 
-function PageHero({ label, title, text, actions, visual }) {
+function PageHero({ label, title, text, actions, visual, className = '' }) {
   return (
-    <section className="page-hero">
+    <section className={className ? `page-hero ${className}` : 'page-hero'}>
       <div className="page-hero-copy">
         <p className="section-label">{label}</p>
         <h1>{title}</h1>
@@ -737,6 +737,7 @@ function ReviewsPage({ data, navigate }) {
         label="Peer Review"
         title="Peer review strengthened the final engineering pitch."
         text={data.feedback.reflection}
+        className="reviews-hero"
         actions={
           <button type="button" className="primary-button" onClick={() => navigate('/portfolio')}>
             View Evidence

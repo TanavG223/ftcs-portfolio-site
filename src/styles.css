@@ -270,6 +270,7 @@ a {
 }
 
 .main-shell {
+  min-width: 0;
   min-height: 100dvh;
   margin-left: var(--side);
   padding: 18px 24px 42px 0;
@@ -284,6 +285,8 @@ a {
   justify-content: space-between;
   gap: 18px;
   width: min(100%, var(--max));
+  max-width: 100%;
+  min-width: 0;
   margin: 0 auto 26px;
   padding: 12px;
   border: 1px solid var(--line);
@@ -335,6 +338,8 @@ a {
 
 .page-frame {
   width: min(100%, var(--max));
+  max-width: 100%;
+  min-width: 0;
   margin: 0 auto;
 }
 
@@ -345,6 +350,8 @@ a {
 .page-stack {
   display: grid;
   gap: 22px;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .page-hero {
@@ -367,6 +374,7 @@ a {
 
 .page-hero-copy,
 .page-hero-visual {
+  max-width: 100%;
   min-width: 0;
 }
 
@@ -383,12 +391,15 @@ a {
 .page-hero h1,
 .text-panel h2,
 .phase-copy h2 {
+  max-width: 100%;
   margin: 0;
   color: var(--ink);
   font-size: clamp(2.35rem, 5.7vw, 6.2rem);
   line-height: 0.99;
   letter-spacing: 0;
   font-weight: 800;
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 .page-hero-copy > p:not(.section-label),
@@ -1130,6 +1141,28 @@ a {
   padding: 14px;
 }
 
+.reviews-hero {
+  grid-template-columns: minmax(0, 0.96fr) minmax(420px, 0.9fr);
+}
+
+.reviews-hero .page-hero-copy {
+  max-width: 540px;
+}
+
+.reviews-hero h1 {
+  font-size: clamp(2.35rem, 4.15vw, 4.55rem);
+  line-height: 1.02;
+}
+
+.reviews-hero .page-hero-visual {
+  justify-self: end;
+  width: min(100%, 620px);
+}
+
+.reviews-hero .team-panel {
+  width: 100%;
+}
+
 .team-panel article {
   min-height: 132px;
   padding: 18px;
@@ -1588,6 +1621,10 @@ a {
     line-height: 1;
   }
 
+  .reviews-hero h1 {
+    font-size: clamp(2.25rem, 8.2vw, 3.55rem);
+  }
+
   .hero-actions {
     flex-direction: column;
   }
@@ -1679,12 +1716,24 @@ a {
   .page-hero h1 {
     font-size: clamp(2rem, 9.6vw, 3.05rem);
     line-height: 1.02;
+    overflow-wrap: anywhere;
+    text-wrap: wrap;
+  }
+
+  .reviews-hero h1 {
+    font-size: clamp(2rem, 8.4vw, 2.72rem);
   }
 
   .page-hero-copy > p:not(.section-label),
   .text-panel p,
   .phase-copy p {
+    max-width: 100%;
     font-size: 0.98rem;
+    overflow-wrap: anywhere;
+  }
+
+  .reviews-hero .page-hero-copy {
+    max-width: 100%;
   }
 
   .page-grid {
