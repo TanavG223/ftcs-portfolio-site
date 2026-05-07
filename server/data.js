@@ -230,6 +230,29 @@ const portfolioData = {
     reflection:
       'The team recovered from an unfocused Phase 1 by meeting earlier, assigning responsibilities, finishing AutoCAD work ahead of schedule, and using feedback to sharpen the pitch.'
   },
+  presentationReadiness: [
+    {
+      title: 'Target audience',
+      items: [
+        'Students and everyday bottle users who want disposable-bottle convenience without creating single-use plastic waste.',
+        'People who need a one-liter bottle that stays lightweight, fits common cup holders, and can survive daily reuse.'
+      ]
+    },
+    {
+      title: 'Validation plan',
+      items: [
+        'Use the design specifications to check a 24-hour leak test, drop and handling durability, cup-holder fit, BPA-free safety, and repeated-use performance.',
+        'Compare the final bottle against reusable competitors and disposable bottles so the unique value is clear during the presentation.'
+      ]
+    },
+    {
+      title: 'Feasibility and next steps',
+      items: [
+        'The CAD work makes the bottle body, no-cap opening, and replacement cap clear enough for prototype planning.',
+        'Next work should focus on deeper material research, clearer sketch annotations, and a sharper unique selling proposition.'
+      ]
+    }
+  ],
   assets: {
     heroCad: '/portfolio/featured/autocad-bottle-full.jpg',
     noCap: '/portfolio/featured/autocad-bottle-nocap.jpg',

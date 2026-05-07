@@ -706,6 +706,11 @@ function ReviewsPage({ data, navigate }) {
           </p>
         </article>
       </section>
+      <section className="review-grid" aria-label="Presentation readiness">
+        {data.presentationReadiness.map((column) => (
+          <ReviewColumn key={column.title} title={column.title} items={column.items} />
+        ))}
+      </section>
     </div>
   )
 }
