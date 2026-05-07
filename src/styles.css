@@ -394,8 +394,8 @@ a {
   max-width: 100%;
   margin: 0;
   color: var(--ink);
-  font-size: clamp(2.35rem, 5.7vw, 6.2rem);
-  line-height: 0.99;
+  font-size: clamp(2.35rem, 4.15vw, 4.55rem);
+  line-height: 1.02;
   letter-spacing: 0;
   font-weight: 800;
   overflow-wrap: break-word;
@@ -955,7 +955,7 @@ a {
 
 .text-panel h2,
 .phase-copy h2 {
-  font-size: clamp(2rem, 4vw, 4.2rem);
+  font-size: clamp(1.9rem, 3vw, 3.35rem);
 }
 
 .phase-rail {
@@ -1147,11 +1147,6 @@ a {
 
 .reviews-hero .page-hero-copy {
   max-width: 540px;
-}
-
-.reviews-hero h1 {
-  font-size: clamp(2.35rem, 4.15vw, 4.55rem);
-  line-height: 1.02;
 }
 
 .reviews-hero .page-hero-visual {
@@ -1617,12 +1612,13 @@ a {
   }
 
   .page-hero h1 {
-    font-size: clamp(2.25rem, 10vw, 4.1rem);
-    line-height: 1;
+    font-size: clamp(2.25rem, 8.2vw, 3.55rem);
+    line-height: 1.02;
   }
 
-  .reviews-hero h1 {
-    font-size: clamp(2.25rem, 8.2vw, 3.55rem);
+  .text-panel h2,
+  .phase-copy h2 {
+    font-size: clamp(1.85rem, 6.4vw, 2.9rem);
   }
 
   .hero-actions {
@@ -1714,14 +1710,16 @@ a {
   }
 
   .page-hero h1 {
-    font-size: clamp(2rem, 9.6vw, 3.05rem);
-    line-height: 1.02;
+    max-width: 11.5ch;
+    font-size: clamp(1.9rem, 7.4vw, 2.38rem);
+    line-height: 1.06;
     overflow-wrap: anywhere;
     text-wrap: wrap;
   }
 
-  .reviews-hero h1 {
-    font-size: clamp(2rem, 8.4vw, 2.72rem);
+  .text-panel h2,
+  .phase-copy h2 {
+    font-size: clamp(1.75rem, 7.2vw, 2.35rem);
   }
 
   .page-hero-copy > p:not(.section-label),
